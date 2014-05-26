@@ -37,7 +37,6 @@ describe 'ingress', ->
   require('../src/ingress')(robot)
 
   describe 'respond listener', ->
-    # it 'test', ->
 
     it 'registers AP per level listener', ->
       expect(@robot.respond).to.have.been.calledWith(/AP\s+(?:to|(?:un)?til)\s+L?(\d{1,2})/i)
@@ -47,7 +46,13 @@ describe 'ingress', ->
 
     describe 'badges commands', ->
       it 'registers "have badge" listener', ->
-        expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:have|has|got|earned)(?: the)? :?(\w+):? badge/i)
+        expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\w,\s]+):? badges?/i)
+
+      it 'registers "what badges" listener', ->
+        expect(@robot.respond).to.have.been.calledWith(/wh(?:at|ich) badges? do(?:es)? (I|@?\w+) have/i)
+
+      it 'registers "do not have" listener', ->
+        expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?(\w+):? badge/i)
 
       it 'responds to "I have the founder badge"', ->
         @msg.match = [0, 'I', 'founder']
@@ -56,6 +61,39 @@ describe 'ingress', ->
         expect(@msg.reply).to.have.been.calledWith('congrats on earning the :founder: badge!')
         expect(badges).to.be.a('array')
         expect(badges).to.include(':founder:')
+
+      it 'responds with error message on invalid badge name', ->
+        @msg.match = [0, 'I', 'random']
+        @robot.respond.args[2][1](@msg)
+        badges = @data.ingressBadges.U123
+        expect(@msg.reply).to.have.been.calledWith('invalid badge name(s): random.')
+        expect(badges).to.be.a('array')
+        expect(badges).not.to.include(':random:')
+
+      it '"I have" automatically replaces badge of same type', ->
+        @msg.match = [0, 'I', 'hacker1']
+        @robot.respond.args[2][1](@msg)
+        badges = @data.ingressBadges.U123
+        expect(@msg.reply).to.have.been.calledWith('congrats on earning the :hacker1: badge!')
+        expect(badges).to.be.a('array')
+        expect(badges).to.include(':hacker1:')
+        @msg.match = [0, 'I', 'hacker2']
+        @robot.respond.args[2][1](@msg)
+        badges = @data.ingressBadges.U123
+        expect(@msg.reply).to.have.been.calledWith('congrats on earning the :hacker2: badge!')
+        expect(badges).to.be.a('array')
+        expect(badges).not.to.include(':hacker1:')
+        expect(badges).to.include(':hacker2:')
+
+      it '"I have" can handle multiple badge names', ->
+        @msg.match = [0, 'I', 'pioneer3, hacker4, builder1']
+        @robot.respond.args[2][1](@msg)
+        badges = @data.ingressBadges.U123
+        expect(@msg.reply).to.have.been.calledWith(sinon.match(/congrats on earning the .* badges!/))
+        expect(badges).to.be.a('array')
+        expect(badges).to.include(':pioneer3:')
+        expect(badges).to.include(':hacker4:')
+        expect(badges).to.include(':builder1:')
 
       it 'responds to "sinon2 has the verified badge"', ->
         @msg.match = [0, 'sinon2', 'verified']
@@ -74,3 +112,10 @@ describe 'ingress', ->
         @msg.match = [0, 'sinon2']
         @robot.respond.args[3][1](@msg)
         expect(@msg.reply).to.have.been.calledWith(sinon.match(/sinon2 has (the following|no) badges.*/))
+
+      it 'responds to "I don\'t have the founder badge"', ->
+        @msg.match = [0, 'I', 'founder']
+        @robot.respond.args[4][1](@msg)
+        badges = @data.ingressBadges.U123
+        expect(@msg.reply).to.have.been.calledWith('removed the :founder: badge')
+        expect(badges).not.to.include(':founder:')
