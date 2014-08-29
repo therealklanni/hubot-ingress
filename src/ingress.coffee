@@ -10,6 +10,10 @@
 # Commands:
 #   hubot AP until|to <N> - tells you the AP required for N level
 #   hubot AP all - prints the AP requirements for each level
+#   hubot I have the <badge> badge - add/remove badges (say don't to remove)
+#   hubot I don't have any badges - remove your badges completely
+#   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
+#   hubot what badges does <person> have? - check another agent's badges
 #
 # Author:
 #   therealklanni
@@ -128,6 +132,8 @@ module.exports = (robot) ->
     del: (user, badgeName) ->
       robot.brain.data.ingressBadges[user.id] = (badges.forUser user).filter (x) ->
         x isnt ":#{badgeName}:"
+    clear: (user) ->
+      robot.brain.data.ingressBadges[user.id] = []
     forUser: (user) ->
       robot.brain.data.ingressBadges[user.id] ?= []
 
@@ -153,10 +159,10 @@ module.exports = (robot) ->
     msg.send lvls.join ""
 
   robot.respond /(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\w,\s]+):? badges?/i, (msg) ->
-    who = msg.match[1].replace '@', ''
-    badgeNames = (msg.match[2].replace /\s*/g, '').split ','
+    who = msg.match[1].toLowerCase().replace '@', ''
+    badgeNames = (msg.match[2].toLowerCase().replace /\s*/g, '').split ','
 
-    if who.toLowerCase() == 'i'
+    if who == 'i'
       who = msg.envelope.user
     else
       who = robot.brain.userForName who
@@ -202,10 +208,10 @@ module.exports = (robot) ->
       msg.reply "#{whowhat} no badges."
 
   robot.respond /(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?(\w+):? badge/i, (msg) ->
-    who = msg.match[1].replace '@', ''
-    badgeName = msg.match[2]
+    who = msg.match[1].toLowerCase().replace '@', ''
+    badgeName = msg.match[2].toLowerCase()
 
-    if who.toLowerCase() == 'i'
+    if who == 'i'
       who = msg.envelope.user
     else
       who = robot.brain.userForName who
@@ -213,3 +219,7 @@ module.exports = (robot) ->
     if ":#{badgeName}:" in badges.forUser who
       badges.del who, badgeName
       msg.reply "removed the :#{badgeName}: badge"
+
+  robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
+    badges.clear msg.envelope.user
+    msg.reply 'OK, removed all your badges'
