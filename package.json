@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/therealklanni/hubot-ingress.git"
+    "url": "git://github.com/hubot-scripts/hubot-ingress.git"
   },
   "bugs": {
-    "url": "https://github.com/therealklanni/hubot-ingress/issues"
+    "url": "https://github.com/hubot-scripts/hubot-ingress/issues"
   },
   "dependencies": {
     "coffee-script": "~1.6"
