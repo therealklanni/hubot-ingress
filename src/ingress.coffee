@@ -14,6 +14,7 @@
 #   hubot I don't have any badges - remove your badges completely
 #   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
 #   hubot what badges does <person> have? - check another agent's badges
+#   hubot intelmap for <search>
 #
 # Author:
 #   therealklanni
@@ -223,3 +224,27 @@ module.exports = (robot) ->
   robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
     badges.clear msg.envelope.user
     msg.reply 'OK, removed all your badges'
+
+
+  googleMapUrl = 'http://maps.googleapis.com/maps/api/geocode/json'
+  lookupLatLong = (msg, location, cb) ->
+    msg.http(googleMapUrl).query(address: location, sensor: true)
+      .get() (err, res, body) ->
+        try
+          body = JSON.parse body
+          coords = body.results[0].geometry.location
+        catch err
+          err = "Could not find #{location}"
+          return cb(msg, null, err)
+        cb(msg, coords, err)
+
+  intelmapUrl = (coords) -> 
+    return "https://www.ingress.com/intel?ll=" + encodeURIComponent(coords.lat) + "," + encodeURIComponent(coords.lng) + "&z=16"
+  sendIntelLink = (msg, coords, err) ->
+    return msg.send err if err
+    url = intelmapUrl coords 
+    msg.reply url
+
+  robot.respond /(intelmap)(?: for)?\s(.*)/i, (msg) ->
+    location = msg.match[2]
+    lookupLatLong msg, location, sendIntelLink

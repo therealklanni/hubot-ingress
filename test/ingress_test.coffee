@@ -19,6 +19,15 @@ describe 'ingress', ->
         forName =
           name: who
           id: 'U234'
+  httpError = 
+    location: "http_error"
+    expected: "this error is used"
+  parseError = 
+    location: "parse_error"
+  httpResponse = 
+    body: '{"results": [{ "geometry": { "location": { "lat": "123", "lng": "456" } } }]}'
+    lat: "123"
+    long: "456"
 
   beforeEach ->
     @user = user
@@ -33,6 +42,16 @@ describe 'ingress', ->
       message:
         user:
           @user
+      http: (url) -> 
+        query: (location, _) -> 
+          get: () -> (cb) -> 
+            return switch location.address
+              when httpError.location
+                cb(httpError.expected, null, httpResponse.body)
+              when parseError.location
+                cb("this is ignored", null, '{ blahblah }')
+              else
+                cb(null, null, httpResponse.body)
 
   require('../src/ingress')(robot)
 
@@ -119,3 +138,20 @@ describe 'ingress', ->
         badges = @data.ingressBadges.U123
         expect(@msg.reply).to.have.been.calledWith('removed the :founder: badge')
         expect(badges).not.to.include(':founder:')
+
+    describe 'intelmap listener', ->
+
+      it 'responds to intelmap when http request results in error', ->
+        @msg.match = [0, 'intelmap', httpError.location]
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.send).to.have.been.calledWith(httpError.expected)
+
+      it 'responds to intelmap with not found when there is a different error', ->
+        @msg.match = [0, 'intelmap', parseError.location]
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.send).to.have.been.calledWith("Could not find #{parseError.location}")
+
+      it 'responds to intelmap with url', ->
+        @msg.match = [0, 'intelmap', 'boston ma']
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponse.lat},#{httpResponse.long}&z=16")
