@@ -235,12 +235,12 @@ module.exports = (robot) ->
           coords = body.results[0].geometry.location
         catch err
           err = "Could not find #{location}"
-          return cb(msg, null, err)
-        cb(msg, coords, err)
+          return cb(err, msg, null)
+        cb(err, msg, coords)
 
   intelmapUrl = (coords) -> 
     return "https://www.ingress.com/intel?ll=" + encodeURIComponent(coords.lat) + "," + encodeURIComponent(coords.lng) + "&z=16"
-  sendIntelLink = (msg, coords, err) ->
+  sendIntelLink = (err, msg, coords) ->
     return msg.send err if err
     url = intelmapUrl coords 
     msg.reply url
