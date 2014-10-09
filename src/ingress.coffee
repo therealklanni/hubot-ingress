@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_GOOGLE_GEOCODE_KEY (optional, may be needed if no results are returned)
 #
 # Commands:
 #   hubot AP until|to <N> - tells you the AP required for N level
@@ -226,9 +226,16 @@ module.exports = (robot) ->
     msg.reply 'OK, removed all your badges'
 
 
-  googleMapUrl = 'http://maps.googleapis.com/maps/api/geocode/json'
+  # Setting this on robot so that it can be overridden in test. Is there a better way?
+  robot.googleGeocodeKey = process.env.HUBOT_GOOGLE_GEOCODE_KEY
+  googleGeocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json'
+
   lookupLatLong = (msg, location, cb) ->
-    msg.http(googleMapUrl).query(address: location, sensor: true)
+    params = 
+      address: location
+    params.key = robot.googleGeocodeKey if robot.googleGeocodeKey?
+
+    msg.http(googleGeocodeUrl).query(params)
       .get() (err, res, body) ->
         try
           body = JSON.parse body

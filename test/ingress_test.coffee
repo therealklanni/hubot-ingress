@@ -24,10 +24,15 @@ describe 'ingress', ->
     expected: "this error is used"
   parseError = 
     location: "parse_error"
-  httpResponse = 
-    body: '{"results": [{ "geometry": { "location": { "lat": "123", "lng": "456" } } }]}'
-    lat: "123"
-    long: "456"
+  httpResponseNoKey = 
+    body: '{"results": [{ "geometry": { "location": { "lat": "LatNoKey", "lng": "LongNoKey" } } }]}'
+    lat: "LatNoKey"
+    long: "LongNoKey"
+  httpResponseKey = 
+    expectedKey: 'ExpectedGeocodeKey'
+    body: '{"results": [{ "geometry": { "location": { "lat": "LatKey", "lng": "LongKey" } } }]}'
+    lat: "LatKey"
+    long: "LongKey"
 
   beforeEach ->
     @user = user
@@ -43,15 +48,20 @@ describe 'ingress', ->
         user:
           @user
       http: (url) -> 
-        query: (location, _) -> 
+        query: (params) -> 
           get: () -> (cb) -> 
-            return switch location.address
+            return switch params.address
               when httpError.location
-                cb(httpError.expected, null, httpResponse.body)
+                cb(httpError.expected, null, httpResponseNoKey.body)
               when parseError.location
                 cb("this is ignored", null, '{ blahblah }')
               else
-                cb(null, null, httpResponse.body)
+                if params.key == httpResponseKey.expectedKey
+                  cb(null, null, httpResponseKey.body)
+                else  
+                  cb(null, null, httpResponseNoKey.body)
+    @robot.googleGeocodeKey = undefined
+                
 
   require('../src/ingress')(robot)
 
@@ -151,7 +161,13 @@ describe 'ingress', ->
         @robot.respond.args[6][1](@msg)
         expect(@msg.send).to.have.been.calledWith("Could not find #{parseError.location}")
 
-      it 'responds to intelmap with url', ->
+      it 'responds to intelmap with url when no Google Geocode API key set', ->
         @msg.match = [0, 'intelmap', 'boston ma']
         @robot.respond.args[6][1](@msg)
-        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponse.lat},#{httpResponse.long}&z=16")
+        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseNoKey.lat},#{httpResponseNoKey.long}&z=16")
+
+      it 'responds to intelmap with url when Google Geocode API key set', ->
+        @msg.match = [0, 'intelmap', 'boston ma']
+        @robot.googleGeocodeKey = httpResponseKey.expectedKey
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseKey.lat},#{httpResponseKey.long}&z=16")
