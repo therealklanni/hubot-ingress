@@ -71,4 +71,4 @@ Badges can be removed one by one.
 
 Gives you a link to the Ingress Intel map based on Google Maps search.
 
-`hubot intelmap soho ny'
+`hubot intelmap soho ny`
