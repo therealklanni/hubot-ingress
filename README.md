@@ -66,3 +66,9 @@ then the new badge will replace the existing badge.
 Badges can be removed one by one.
 
 `hubot I don't have the hacker1 badge`
+
+### Get Intel map
+
+Gives you a link to the Ingress Intel map based on Google Maps search.
+
+`hubot intelmap soho ny'
