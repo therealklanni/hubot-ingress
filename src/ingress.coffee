@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_GOOGLE_GEOCODE_KEY (optional, may be needed if no results are returned)
 #
 # Commands:
 #   hubot AP until|to <N> - tells you the AP required for N level
@@ -14,6 +14,7 @@
 #   hubot I don't have any badges - remove your badges completely
 #   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
 #   hubot what badges does <person> have? - check another agent's badges
+#   hubot intelmap for <search>
 #
 # Author:
 #   therealklanni
@@ -223,3 +224,34 @@ module.exports = (robot) ->
   robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
     badges.clear msg.envelope.user
     msg.reply 'OK, removed all your badges'
+
+
+  # Setting this on robot so that it can be overridden in test. Is there a better way?
+  robot.googleGeocodeKey = process.env.HUBOT_GOOGLE_GEOCODE_KEY
+  googleGeocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json'
+
+  lookupLatLong = (msg, location, cb) ->
+    params = 
+      address: location
+    params.key = robot.googleGeocodeKey if robot.googleGeocodeKey?
+
+    msg.http(googleGeocodeUrl).query(params)
+      .get() (err, res, body) ->
+        try
+          body = JSON.parse body
+          coords = body.results[0].geometry.location
+        catch err
+          err = "Could not find #{location}"
+          return cb(err, msg, null)
+        cb(err, msg, coords)
+
+  intelmapUrl = (coords) -> 
+    return "https://www.ingress.com/intel?ll=" + encodeURIComponent(coords.lat) + "," + encodeURIComponent(coords.lng) + "&z=16"
+  sendIntelLink = (err, msg, coords) ->
+    return msg.send err if err
+    url = intelmapUrl coords 
+    msg.reply url
+
+  robot.respond /(intelmap)(?: for)?\s(.*)/i, (msg) ->
+    location = msg.match[2]
+    lookupLatLong msg, location, sendIntelLink

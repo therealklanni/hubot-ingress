@@ -19,6 +19,20 @@ describe 'ingress', ->
         forName =
           name: who
           id: 'U234'
+  httpError = 
+    location: "http_error"
+    expected: "this error is used"
+  parseError = 
+    location: "parse_error"
+  httpResponseNoKey = 
+    body: '{"results": [{ "geometry": { "location": { "lat": "LatNoKey", "lng": "LongNoKey" } } }]}'
+    lat: "LatNoKey"
+    long: "LongNoKey"
+  httpResponseKey = 
+    expectedKey: 'ExpectedGeocodeKey'
+    body: '{"results": [{ "geometry": { "location": { "lat": "LatKey", "lng": "LongKey" } } }]}'
+    lat: "LatKey"
+    long: "LongKey"
 
   beforeEach ->
     @user = user
@@ -33,6 +47,21 @@ describe 'ingress', ->
       message:
         user:
           @user
+      http: (url) -> 
+        query: (params) -> 
+          get: () -> (cb) -> 
+            return switch params.address
+              when httpError.location
+                cb(httpError.expected, null, httpResponseNoKey.body)
+              when parseError.location
+                cb("this is ignored", null, '{ blahblah }')
+              else
+                if params.key == httpResponseKey.expectedKey
+                  cb(null, null, httpResponseKey.body)
+                else  
+                  cb(null, null, httpResponseNoKey.body)
+    @robot.googleGeocodeKey = undefined
+                
 
   require('../src/ingress')(robot)
 
@@ -119,3 +148,26 @@ describe 'ingress', ->
         badges = @data.ingressBadges.U123
         expect(@msg.reply).to.have.been.calledWith('removed the :founder: badge')
         expect(badges).not.to.include(':founder:')
+
+    describe 'intelmap listener', ->
+
+      it 'responds to intelmap when http request results in error', ->
+        @msg.match = [0, 'intelmap', httpError.location]
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.send).to.have.been.calledWith(httpError.expected)
+
+      it 'responds to intelmap with not found when there is a different error', ->
+        @msg.match = [0, 'intelmap', parseError.location]
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.send).to.have.been.calledWith("Could not find #{parseError.location}")
+
+      it 'responds to intelmap with url when no Google Geocode API key set', ->
+        @msg.match = [0, 'intelmap', 'boston ma']
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseNoKey.lat},#{httpResponseNoKey.long}&z=16")
+
+      it 'responds to intelmap with url when Google Geocode API key set', ->
+        @msg.match = [0, 'intelmap', 'boston ma']
+        @robot.googleGeocodeKey = httpResponseKey.expectedKey
+        @robot.respond.args[6][1](@msg)
+        expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseKey.lat},#{httpResponseKey.long}&z=16")
