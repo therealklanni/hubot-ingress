@@ -105,10 +105,13 @@ levels =
 badgeList = [
   'builder1', 'builder2', 'builder3', 'builder4', 'builder5',
   'connector1', 'connector2', 'connector3', 'connector4', 'connector5',
+  'darsana',
+  'eve',
   'explorer1', 'explorer2', 'explorer3', 'explorer4', 'explorer5',
   'founder',
   'guardian1', 'guardian2', 'guardian3', 'guardian4', 'guardian5',
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
+  'helios',
   'initio',
   'interitus',
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
