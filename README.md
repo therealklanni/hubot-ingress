@@ -10,6 +10,7 @@ specifically for use with the Slack adapter.
 * Report level requirements
 * List requirements for all levels
 * Store badge information for players
+* Calculate recharge rate and max distance for AP level
 * *much more to come...*
 
 ## Installation
@@ -72,3 +73,17 @@ Badges can be removed one by one.
 Gives you a link to the Ingress Intel map based on Google Maps search.
 
 `hubot intelmap soho ny`
+
+### Calculate max recharge distance
+
+Calculate maximum distance from which an agent can recharge, based on agent level.
+
+`hubot recharge distance [level]`
+
+### Calculate recharge rate/percentage
+
+Calculate recharge efficiency for an agent, based on agent level and distance.
+
+`hubot recharge rate [level] [distance]`
+
+Note: The distance parameter defaults to km, but it can also convert imperial units, e.g. `hubot recharge rate 11 450 miles`
