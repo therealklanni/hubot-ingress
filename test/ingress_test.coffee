@@ -151,6 +151,9 @@ describe 'ingress', ->
 
     describe 'intelmap listener', ->
 
+      it 'registers intelmap listener', ->
+        expect(@robot.respond).to.have.been.calledWith(/(intelmap)(?: for)?\s(.*)/i)
+
       it 'responds to intelmap when http request results in error', ->
         @msg.match = [0, 'intelmap', httpError.location]
         @robot.respond.args[6][1](@msg)
