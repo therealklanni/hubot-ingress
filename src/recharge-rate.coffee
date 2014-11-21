@@ -40,7 +40,7 @@ module.exports = (robot) ->
   robot.respond /recharge\s+(max|distance)\s+([0-9]{1,2})/i, (msg) ->
     level = +msg.match[2]
     distance = calculateDistance level
-    msg.reply "A level #{level} agent can recharge up to #{distance} km away."
+    msg.send "A level #{level} agent can recharge up to #{distance} km away."
 
   robot.respond /recharge\s+(efficiency|rate|percent)\s+([0-9]{1,2})\s+([0-9\.]+)\s*([a-z]+)?/i, (msg) ->
     level = +msg.match[2]
@@ -49,4 +49,4 @@ module.exports = (robot) ->
     rate = calculateEfficiency distance, level
     response = "A level #{level} agent cannot recharge from #{distance} km away."
     response = "A level #{level} agent can recharge from #{distance} km away at #{rate}%." if rate > 0
-    msg.reply response
+    msg.send response

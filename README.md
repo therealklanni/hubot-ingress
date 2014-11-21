@@ -11,6 +11,7 @@ specifically for use with the Slack adapter.
 * List requirements for all levels
 * Store badge information for players
 * Calculate recharge rate and max distance for AP level
+* Calculate septicycle/checkpoint times
 * *much more to come...*
 
 ## Installation
@@ -36,6 +37,9 @@ At the time of this writing, 2,500 requests/day are provided for free.
 Create a new project for your hubot in the developer console, unless you 
 have one already. Enable "Geocoding API" under "_APIs_" and then 
 create a new key under "_Credentials_".
+
+`HUBOT_CYCLE_TIME_FMT` - Optionally ovveride the display format for times (see Moment.js). Default is "ddd hA" (e.g. "Sun 10pm")
+`HUBOT_CYCLE_TZ_OFFSET` - Optionally set the timezone offset (see Moment.js). Defaults to the server instance's offset.
 
 ## Commands
 
@@ -87,3 +91,27 @@ Calculate recharge efficiency for an agent, based on agent level and distance.
 `hubot recharge rate [level] [distance]`
 
 Note: The distance parameter defaults to km, but it can also convert imperial units, e.g. `hubot recharge rate 11 450 miles`
+
+### Get Septicycle times
+
+Calculate the next septicycle start. Optionally provide a number X to get the next X start times.
+
+`hubot septicycle|cycle [count]`
+
+### Get Checkpoint times
+
+Calculate the next checkpoint start. Optionally provide a number X to get the next X start times.
+
+`hubot checkpoint|cp [count]`
+
+### Get Timezone Offset
+
+Returns the current configured timezone offset.
+
+`hubot cycle offset`
+
+### Set Timezone Offset
+
+Set the timezone offset. See [Moment.js](http://momentjs.com/docs/#/manipulating/timezone-offset/) for how to configure this.
+
+`hubot cycle set offset [offset]`
