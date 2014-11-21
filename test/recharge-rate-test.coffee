@@ -32,14 +32,14 @@ describe 'ingress: recharge', ->
   it 'responds to "recharge distance"', ->
     @msg.match = [0, 'max', '8']
     @robot.respond.args[0][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith('A level 8 agent can recharge up to 2000 km away.')
+    expect(@msg.send).to.have.been.calledWith('A level 8 agent can recharge up to 2000 km away.')
 
   it 'responds to potential "recharge rate"', ->
     @msg.match = [0, 'rate', '8', '1000']
     @robot.respond.args[1][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith('A level 8 agent can recharge from 1000 km away at 75%.')
+    expect(@msg.send).to.have.been.calledWith('A level 8 agent can recharge from 1000 km away at 75%.')
 
   it 'responds to out-of-range "recharge rate"', ->
     @msg.match = [0, 'rate', '8', '3000']
     @robot.respond.args[1][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith('A level 8 agent cannot recharge from 3000 km away.')
+    expect(@msg.send).to.have.been.calledWith('A level 8 agent cannot recharge from 3000 km away.')
