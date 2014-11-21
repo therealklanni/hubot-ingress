@@ -4,103 +4,14 @@
 # Dependencies:
 #   None
 #
-# Configuration:
-#   HUBOT_GOOGLE_GEOCODE_KEY (optional, may be needed if no results are returned)
-#
 # Commands:
-#   hubot AP until|to <N> - tells you the AP required for N level
-#   hubot AP all - prints the AP requirements for each level
 #   hubot I have the <badge> badge - add/remove badges (say don't to remove)
 #   hubot I don't have any badges - remove your badges completely
 #   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
 #   hubot what badges does <person> have? - check another agent's badges
-#   hubot intelmap for <search>
 #
 # Author:
 #   therealklanni
-
-# Quick refrence for what badges are need at what level
-# LVL   Badges              AP          Max xm
-# 9   4 Silver, 1 Gold,     2400000,    10900
-# 10  5 Silver, 2 Gold,     4000000,    11700
-# 11  6 Silver, 4 Gold,     6000000,    12400
-# 12  7 Silver, 6 Gold,     8400000,    13000
-# 13  7 Gold, 1 Plat,       12000000,   13500
-# 14  2 Plat,               17000000,   13900
-# 15  3 Plat,               24000000,   14200
-# 16  4 Plat, 2 Black,      40000000,   14400
-
-levels =
-  1:
-    ap: 0
-    xm: 3000
-  2:
-    ap: 2500
-    xm: 4000
-  3:
-    ap: 20000
-    xm: 5000
-  4:
-    ap: 70000
-    xm: 6000
-  5:
-    ap: 150000
-    xm: 7000
-  6:
-    ap: 300000
-    xm: 8000
-  7:
-    ap: 600000
-    xm: 9000
-  8:
-    ap: 1200000
-    xm: 10000
-  9:
-    ap: 2400000
-    xm: 10900
-    badges:
-      silver: 4
-      gold: 1
-  10:
-    ap: 4000000
-    xm: 11700
-    badges:
-      silver: 5
-      gold: 2
-  11:
-    ap: 6000000
-    xm: 12400
-    badges:
-      silver: 6
-      gold: 4
-  12:
-    ap: 8400000
-    xm: 13000
-    badges:
-      silver: 7
-      gold: 6
-  13:
-    ap: 12000000
-    xm: 13500
-    badges:
-      gold: 7
-      platinum: 1
-  14:
-    ap: 17000000
-    xm: 13900
-    badges:
-      platinum: 2
-  15:
-    ap: 24000000
-    xm: 14200
-    badges:
-      platinum: 3
-  16:
-    ap: 40000000
-    xm: 14400
-    badges:
-      platinum: 4
-      black: 2
 
 badgeList = [
   'builder1', 'builder2', 'builder3', 'builder4', 'builder5',
@@ -141,26 +52,8 @@ module.exports = (robot) ->
     forUser: (user) ->
       robot.brain.data.ingressBadges[user.id] ?= []
 
-  sayBadges = (a) ->
-    badgeReq = for kind, amt of a
-      Array(amt+1).join ":#{kind}:"
-
   robot.brain.on 'loaded', ->
     robot.brain.data.ingressBadges ?= {}
-
-  robot.respond /AP\s+(?:to|(?:un)?til)\s+L?(\d{1,2})/i, (msg) ->
-    [lv, lvl] = [msg.match[1], levels[msg.match[1]]]
-    if lvl.badges?
-      badgeReq = sayBadges lvl.badges
-    msg.reply "You need #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}
- to reach L#{lv}#{if lv > 15 then ' (hang in there!)' else ''}"
-
-  robot.respond /AP all/i, (msg) ->
-    lvls = for lv, lvl of levels
-      if lvl.badges?
-        badgeReq = sayBadges lvl.badges
-      "\nL#{lv} = #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}"
-    msg.send lvls.join ""
 
   robot.respond /(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\w,\s]+):? badges?/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
@@ -227,34 +120,3 @@ module.exports = (robot) ->
   robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
     badges.clear msg.envelope.user
     msg.reply 'OK, removed all your badges'
-
-
-  # Setting this on robot so that it can be overridden in test. Is there a better way?
-  robot.googleGeocodeKey = process.env.HUBOT_GOOGLE_GEOCODE_KEY
-  googleGeocodeUrl = 'https://maps.googleapis.com/maps/api/geocode/json'
-
-  lookupLatLong = (msg, location, cb) ->
-    params = 
-      address: location
-    params.key = robot.googleGeocodeKey if robot.googleGeocodeKey?
-
-    msg.http(googleGeocodeUrl).query(params)
-      .get() (err, res, body) ->
-        try
-          body = JSON.parse body
-          coords = body.results[0].geometry.location
-        catch err
-          err = "Could not find #{location}"
-          return cb(err, msg, null)
-        cb(err, msg, coords)
-
-  intelmapUrl = (coords) -> 
-    return "https://www.ingress.com/intel?ll=" + encodeURIComponent(coords.lat) + "," + encodeURIComponent(coords.lng) + "&z=16"
-  sendIntelLink = (err, msg, coords) ->
-    return msg.send err if err
-    url = intelmapUrl coords 
-    msg.reply url
-
-  robot.respond /(intelmap)(?: for)?\s(.*)/i, (msg) ->
-    location = msg.match[2]
-    lookupLatLong msg, location, sendIntelLink
