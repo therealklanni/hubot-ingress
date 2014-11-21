@@ -24,6 +24,7 @@ badgeList = [
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
   'helios',
   'initio',
+  'innovator1', 'innovator2', 'innovator3', 'innovator4', 'innovator5'
   'interitus',
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
   'mindcontroller1', 'mindcontroller2', 'mindcontroller3', 'mindcontroller4', 'mindcontroller5',
