@@ -34,3 +34,6 @@ describe 'ingress: cycle times', ->
 
   it 'registers "cycle set offset" listener', ->
     expect(@robot.respond).to.have.been.calledWith /cycle set offset (.*)/i
+
+  it 'registers "cycle set offsetname" listener', ->
+    expect(@robot.respond).to.have.been.calledWith /cycle set offsetname (.*)/i

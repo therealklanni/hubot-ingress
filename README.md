@@ -38,8 +38,11 @@ Create a new project for your hubot in the developer console, unless you
 have one already. Enable "Geocoding API" under "_APIs_" and then 
 create a new key under "_Credentials_".
 
-`HUBOT_CYCLE_TIME_FMT` - Optionally ovveride the display format for times (see Moment.js). Default is "ddd hA" (e.g. "Sun 10pm")
-`HUBOT_CYCLE_TZ_OFFSET` - Optionally set the timezone offset (see Moment.js). Defaults to the server instance's offset.
+`HUBOT_CYCLE_TIME_FMT` - Optionally ovveride the display format for times (see Moment-timezone.js). Default is "ddd hA" (e.g. "Sun 10pm")
+
+`HUBOT_CYCLE_TZ_NAME` - Optionally set the timezone name (e.g. 'EST' see Moment-timezone.js). This wins when set.
+
+`HUBOT_CYCLE_TZ_OFFSET` - Optionally set the timezone offset (e.g. '-05:00', see Moment.js). Defaults to the server instance's offset. This is used when `HUBOT_CYCLE_TZ_NAME` is not provided.
 
 ## Commands
 
