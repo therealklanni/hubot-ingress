@@ -37,13 +37,13 @@ describe 'ingress: badges', ->
   require('../src/badges')(robot)
 
   it 'registers "have badge" listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\w,\s]+):? badges?/i)
+    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i)
 
   it 'registers "what badges" listener', ->
     expect(@robot.respond).to.have.been.calledWith(/wh(?:at|ich) badges? do(?:es)? (I|@?\w+) have/i)
 
   it 'registers "do not have" listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?(\w+):? badge/i)
+    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i)
 
   it 'responds to "I have the founder badge"', ->
     @msg.match = [0, 'I', 'founder']
@@ -52,6 +52,14 @@ describe 'ingress: badges', ->
     expect(@msg.reply).to.have.been.calledWith('congrats on earning the :founder: badge!')
     expect(badges).to.be.a('array')
     expect(badges).to.include(':founder:')
+
+  it 'responds to "I have the oliver-lynton-wolfe badge"', ->
+    @msg.match = [0, 'I', 'oliver-lynton-wolfe']
+    @robot.respond.args[0][1](@msg)
+    badges = @data.ingressBadges.U123
+    expect(@msg.reply).to.have.been.calledWith('congrats on earning the :oliver-lynton-wolfe: badge!')
+    expect(badges).to.be.a('array')
+    expect(badges).to.include(':oliver-lynton-wolfe:')
 
   it 'responds with error message on invalid badge name', ->
     @msg.match = [0, 'I', 'random']
@@ -77,7 +85,7 @@ describe 'ingress: badges', ->
     expect(badges).to.include(':hacker2:')
 
   it '"I have" can handle multiple badge names', ->
-    @msg.match = [0, 'I', 'pioneer3, hacker4, builder1']
+    @msg.match = [0, 'I', 'pioneer3, hacker4, builder1, oliver-lynton-wolfe']
     @robot.respond.args[0][1](@msg)
     badges = @data.ingressBadges.U123
     expect(@msg.reply).to.have.been.calledWith(sinon.match(/congrats on earning the .* badges!/))
@@ -85,6 +93,7 @@ describe 'ingress: badges', ->
     expect(badges).to.include(':pioneer3:')
     expect(badges).to.include(':hacker4:')
     expect(badges).to.include(':builder1:')
+    expect(badges).to.include(':oliver-lynton-wolfe:')
 
   it 'responds to "sinon2 has the verified badge"', ->
     @msg.match = [0, 'sinon2', 'verified']
