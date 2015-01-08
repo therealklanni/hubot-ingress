@@ -60,7 +60,7 @@ module.exports = (robot) ->
   robot.brain.on 'loaded', ->
     robot.brain.data.ingressBadges ?= {}
 
-  robot.respond /(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\w,\s]+):? badges?/i, (msg) ->
+  robot.respond /(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
     badgeNames = (msg.match[2].toLowerCase().replace /\s*/g, '').split ','
 
@@ -109,7 +109,7 @@ module.exports = (robot) ->
     else
       msg.reply "#{whowhat} no badges."
 
-  robot.respond /(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?(\w+):? badge/i, (msg) ->
+  robot.respond /(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
     badgeName = msg.match[2].toLowerCase()
 
