@@ -95,20 +95,20 @@ levels =
       black: 2
 
 module.exports = (robot) ->
-  sayBadges = (a) ->
-    badgeReq = for kind, amt of a
-      Array(amt+1).join ":#{kind}:"
+  quantifyBadges = (a) ->
+    for kind, n of a
+      ":#{kind}:#{if n > 1 then '×' + n else ''}"
 
   robot.respond /AP\s+(?:to|(?:un)?til)\s+L?(\d\d?)/i, (msg) ->
     [lv, lvl] = [msg.match[1], levels[msg.match[1]]]
     if lvl.badges?
-      badgeReq = sayBadges lvl.badges
+      badgeReq = quantifyBadges lvl.badges
     msg.reply "You need #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}
  to reach L#{lv}#{if lv > 15 then ' (hang in there!)' else ''}"
 
   robot.respond /AP all/i, (msg) ->
     lvls = for lv, lvl of levels
       if lvl.badges?
-        badgeReq = sayBadges lvl.badges
+        badgeReq = quantifyBadges lvl.badges
       "\nL#{lv} = #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}"
     msg.send lvls.join ""
