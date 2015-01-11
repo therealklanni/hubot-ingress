@@ -6,7 +6,7 @@ expect = chai.expect
 
 describe 'ingress: badges', ->
   user =
-    name: 'sinon'
+    name: 'user'
     id: 'U123'
   robot =
     respond: sinon.spy()
@@ -95,11 +95,11 @@ describe 'ingress: badges', ->
     expect(badges).to.include(':builder1:')
     expect(badges).to.include(':oliver-lynton-wolfe:')
 
-  it 'responds to "sinon2 has the verified badge"', ->
-    @msg.match = [0, 'sinon2', 'verified']
+  it 'responds to "user2 has the verified badge"', ->
+    @msg.match = [0, 'user2', 'verified']
     @robot.respond.args[0][1](@msg)
     badges = @data.ingressBadges.U234
-    expect(@msg.send).to.have.been.calledWith('@sinon2: congrats on earning the :verified: badge!')
+    expect(@msg.send).to.have.been.calledWith('@user2: congrats on earning the :verified: badge!')
     expect(badges).to.be.a('array')
     expect(badges).to.include(':verified:')
 
@@ -108,10 +108,10 @@ describe 'ingress: badges', ->
     @robot.respond.args[1][1](@msg)
     expect(@msg.reply).to.have.been.calledWith(sinon.match(/You have (the following|no) badges.*/))
 
-  it 'responds to "what badges does sinon2 have"', ->
-    @msg.match = [0, 'sinon2']
+  it 'responds to "what badges does user2 have"', ->
+    @msg.match = [0, 'user2']
     @robot.respond.args[1][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith(sinon.match(/sinon2 has (the following|no) badges.*/))
+    expect(@msg.reply).to.have.been.calledWith(sinon.match(/user2 has (the following|no) badges.*/))
 
   it 'responds to "I don\'t have the founder badge"', ->
     @msg.match = [0, 'I', 'founder']
