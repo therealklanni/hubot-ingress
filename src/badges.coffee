@@ -60,7 +60,7 @@ module.exports = (robot) ->
   robot.brain.on 'loaded', ->
     robot.brain.data.ingressBadges ?= {}
 
-  robot.respond /(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
+  robot.respond /(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
     badgeNames = (msg.match[2].toLowerCase().replace /\s*/g, '').split ','
 
@@ -92,7 +92,7 @@ module.exports = (robot) ->
         msg.send "@#{who.name}: congrats on earning the :#{badgeNames.join ': :'}:
  badge#{if badgeNames.length > 1 then 's' else ''}!"
 
-  robot.respond /wh(?:at|ich) badges? do(?:es)? (I|@?\w+) have/i, (msg) ->
+  robot.respond /wh(?:at|ich) badges? do(?:es)? (@?[.\w\-]+) have/i, (msg) ->
     who = msg.match[1].replace '@', ''
 
     if who.toLowerCase() == 'i'
@@ -109,7 +109,7 @@ module.exports = (robot) ->
     else
       msg.reply "#{whowhat} no badges."
 
-  robot.respond /(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i, (msg) ->
+  robot.respond /(@?[.\w\-]+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
     badgeName = msg.match[2].toLowerCase()
 
