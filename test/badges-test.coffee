@@ -37,13 +37,13 @@ describe 'ingress: badges', ->
   require('../src/badges')(robot)
 
   it 'registers "have badge" listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i)
+    expect(@robot.respond).to.have.been.calledWith(/(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i)
 
   it 'registers "what badges" listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/wh(?:at|ich) badges? do(?:es)? (I|@?\w+) have/i)
+    expect(@robot.respond).to.have.been.calledWith(/wh(?:at|ich) badges? do(?:es)? (@?[.\w\-]+) have/i)
 
   it 'registers "do not have" listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/(I|@?\w+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i)
+    expect(@robot.respond).to.have.been.calledWith(/(@?[.\w\-]+) (?:do(?:n't|esn't| not)) have the :?([\-\w]+):? badge/i)
 
   it 'responds to "I have the founder badge"', ->
     @msg.match = [0, 'I', 'founder']
@@ -119,3 +119,26 @@ describe 'ingress: badges', ->
     badges = @data.ingressBadges.U123
     expect(@msg.reply).to.have.been.calledWith('removed the :founder: badge')
     expect(badges).not.to.include(':founder:')
+
+  describe 'handles usernames with special characters [@-.]', ->
+    it '(user-2)', ->
+      @msg.match = [0, 'user-2', 'verified']
+      @robot.respond.args[0][1](@msg)
+      badges = @data.ingressBadges.U234
+      expect(badges).to.be.a('array')
+      expect(badges).to.include(':verified:')
+      expect(@msg.send).to.have.been.calledWith('@user-2: congrats on earning the :verified: badge!')
+    it '(user.2)', ->
+      @msg.match = [0, 'user.2', 'verified']
+      @robot.respond.args[0][1](@msg)
+      badges = @data.ingressBadges.U234
+      expect(badges).to.be.a('array')
+      expect(badges).to.include(':verified:')
+      expect(@msg.send).to.have.been.calledWith('@user.2: congrats on earning the :verified: badge!')
+    it '(@user2)', ->
+      @msg.match = [0, '@user2', 'verified']
+      @robot.respond.args[0][1](@msg)
+      badges = @data.ingressBadges.U234
+      expect(badges).to.be.a('array')
+      expect(badges).to.include(':verified:')
+      expect(@msg.send).to.have.been.calledWith('@user2: congrats on earning the :verified: badge!')
