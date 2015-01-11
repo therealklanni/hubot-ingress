@@ -99,7 +99,7 @@ module.exports = (robot) ->
     badgeReq = for kind, amt of a
       Array(amt+1).join ":#{kind}:"
 
-  robot.respond /AP\s+(?:to|(?:un)?til)\s+L?(\d{1,2})/i, (msg) ->
+  robot.respond /AP\s+(?:to|(?:un)?til)\s+L?(\d\d?)/i, (msg) ->
     [lv, lvl] = [msg.match[1], levels[msg.match[1]]]
     if lvl.badges?
       badgeReq = sayBadges lvl.badges

@@ -14,7 +14,7 @@ describe 'ingress: levels', ->
   require('../src/levels')(robot)
 
   it 'registers AP per level listener', ->
-    expect(@robot.respond).to.have.been.calledWith(/AP\s+(?:to|(?:un)?til)\s+L?(\d{1,2})/i)
+    expect(@robot.respond).to.have.been.calledWith(/AP\s+(?:to|(?:un)?til)\s+L?(\d\d?)/i)
 
   it 'registers AP for all levels listener', ->
     expect(@robot.respond).to.have.been.calledWith(/AP all/i)
