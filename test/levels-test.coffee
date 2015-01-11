@@ -10,6 +10,8 @@ describe 'ingress: levels', ->
 
   beforeEach ->
     @robot = robot
+    @msg =
+      reply: sinon.spy()
 
   require('../src/levels')(robot)
 
@@ -18,3 +20,8 @@ describe 'ingress: levels', ->
 
   it 'registers AP for all levels listener', ->
     expect(@robot.respond).to.have.been.calledWith(/AP all/i)
+
+  it 'responds to AP query', ->
+    @msg.match = [null, 3]
+    @robot.respond.args[0][1](@msg)
+    expect(@msg.reply).to.have.been.calledWithMatch(/You need \d+ AP.*? to reach L\d\d?/)
