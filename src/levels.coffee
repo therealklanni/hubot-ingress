@@ -103,8 +103,8 @@ module.exports = (robot) ->
     [lv, lvl] = [msg.match[1], levels[msg.match[1]]]
     if lvl.badges?
       badgeReq = quantifyBadges lvl.badges
-    msg.reply "You need #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}
- to reach L#{lv}#{if lv > 15 then ' (hang in there!)' else ''}"
+    msg.reply "A total of #{lvl.ap} AP#{if badgeReq? then ' ' + badgeReq.join ' ' else ''}
+ is needed to reach L#{lv}#{if lv > 15 then ' (hang in there!)' else ''}"
 
   robot.respond /AP all/i, (msg) ->
     lvls = for lv, lvl of levels

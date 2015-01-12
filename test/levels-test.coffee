@@ -24,4 +24,4 @@ describe 'ingress: levels', ->
   it 'responds to AP query', ->
     @msg.match = [null, 3]
     @robot.respond.args[0][1](@msg)
-    expect(@msg.reply).to.have.been.calledWithMatch(/You need \d+ AP.*? to reach L\d\d?/)
+    expect(@msg.reply).to.have.been.calledWithMatch(/A total of \d+ AP.*? is needed to reach L\d\d?/)
