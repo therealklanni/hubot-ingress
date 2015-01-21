@@ -158,14 +158,14 @@ module.exports = (robot) ->
   robot.respond /list badges ?.*/i, (msg) ->
     message = ""
     for badgeType of badgeTypes
-      message += "`#{badgeType}`, "
+      message += "#{badgeType}, "
     msg.send message  
 
   robot.respond /display badges ?.*/i, (msg) ->
     message = "The available badges are:\n"
     for badgeType, badgeNum of badgeTypes 
       if badgeNum == 1
-        message += "`#{badgeType}`: :#{badgeType}: \n"
+        message += "#{badgeType}: :#{badgeType}: \n"
       else 
-        message += "`#{badgeType}`: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
     msg.send message   
