@@ -40,6 +40,6 @@ module.exports = (robot) ->
     url = intelmapUrl coords
     msg.reply url
 
-  robot.respond /(intelmap)(?: for)?\s(.*)/i, (msg) ->
+  robot.respond /(intelmap|intel map|intel)(?: for)?\s(.*)/i, (msg) ->
     location = msg.match[2]
     lookupLatLong msg, location, sendIntelLink
