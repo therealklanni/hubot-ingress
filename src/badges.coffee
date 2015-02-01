@@ -9,6 +9,8 @@
 #   hubot I don't have any badges - remove your badges completely
 #   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
 #   hubot what badges does <person> have? - check another agent's badges
+#   hubot list badges - list the badges available
+#   hubot display badges - displays all the badge titles and the badges
 #
 # Author:
 #   therealklanni
@@ -39,6 +41,33 @@ badgeList = [
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
   'verified'
 ]
+
+badgeTypes = {
+  'builder': 5,
+  'connector': 5,
+  'darsana': 1,
+  'engineer': 5,
+  'eve': 1,
+  'explorer': 5,
+  'founder': 1,
+  'guardian': 5,
+  'hacker': 5,
+  'helios': 1,
+  'initio': 1,
+  'innovator': 5,
+  'interitus': 1,
+  'liberator': 5,
+  'mindcontroller': 5,
+  'oliver-lynton-wolfe': 1,
+  'pioneer': 5,
+  'purifier': 5,
+  'recharger': 5,
+  'recursion': 1,
+  'seer': 5,
+  'specops': 5,
+  'trekker': 5,
+  'verified': 1,
+}
 
 module.exports = (robot) ->
   badges =
@@ -125,3 +154,18 @@ module.exports = (robot) ->
   robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
     badges.clear msg.envelope.user
     msg.reply 'OK, removed all your badges'
+    
+  robot.respond /list badges ?.*/i, (msg) ->
+    message = ""
+    for badgeType of badgeTypes
+      message += "#{badgeType}, "
+    msg.send message  
+
+  robot.respond /display badges ?.*/i, (msg) ->
+    message = "The available badges are:\n"
+    for badgeType, badgeNum of badgeTypes 
+      if badgeNum == 1
+        message += "#{badgeType}: :#{badgeType}: \n"
+      else 
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
+    msg.send message   
