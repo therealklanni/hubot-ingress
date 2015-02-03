@@ -38,7 +38,8 @@ badgeList = [
   'recursion',
   'seer1', 'seer2', 'seer3', 'seer4', 'seer5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
-  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
+  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5', 'translator1', 
+  'translator2', 'translator3', 'translator4', 'translator5',
   'verified'
 ]
 
@@ -66,7 +67,8 @@ badgeTypes = {
   'seer': 5,
   'specops': 5,
   'trekker': 5,
-  'verified': 1,
+  'translator': 5,
+  'verified': 1
 }
 
 module.exports = (robot) ->
