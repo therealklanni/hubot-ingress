@@ -26,6 +26,8 @@ badgeList = [
   'guardian1', 'guardian2', 'guardian3', 'guardian4', 'guardian5',
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
   'helios',
+  'illuminator1', 'illuminator2', 'illuminator3', 'illuminator4',
+  'illuminator5',
   'initio',
   'innovator1', 'innovator2', 'innovator3', 'innovator4', 'innovator5'
   'interitus',
@@ -38,9 +40,10 @@ badgeList = [
   'recursion',
   'recruiter1', 'recruiter2', 'recruiter3', 'recruiter4', 'recruiter5',
   'seer1', 'seer2', 'seer3', 'seer4', 'seer5',
+  'shonin'
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
-  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5', 
-  'translator1', 'translator2', 'translator3', 'translator4', 'translator5',
+  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5', 'translator1', 
+  'translator2', 'translator3', 'translator4', 'translator5',
   'verified'
 ]
 
@@ -55,6 +58,7 @@ badgeTypes = {
   'guardian': 5,
   'hacker': 5,
   'helios': 1,
+  'illuminator': 5,
   'initio': 1,
   'innovator': 5,
   'interitus': 1,
@@ -67,6 +71,7 @@ badgeTypes = {
   'recursion': 1,
   'recruiter': 5,
   'seer': 5,
+  'shonin': 1,
   'specops': 5,
   'trekker': 5,
   'translator': 5,
