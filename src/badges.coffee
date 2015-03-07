@@ -40,7 +40,8 @@ badgeList = [
   'recursion',
   'recruiter1', 'recruiter2', 'recruiter3', 'recruiter4', 'recruiter5',
   'seer1', 'seer2', 'seer3', 'seer4', 'seer5',
-  'shonin'
+  'shonin',
+  'sojourner1', 'sojourner2', 'sojouner3', 'sojourner4', 'sojourner5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5', 
   'translator1', 'translator2', 'translator3', 'translator4', 
@@ -73,6 +74,7 @@ badgeTypes = {
   'recruiter': 5,
   'seer': 5,
   'shonin': 1,
+  'sojourner': 5,
   'specops': 5,
   'trekker': 5,
   'translator': 5,
