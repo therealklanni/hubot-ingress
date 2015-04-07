@@ -32,20 +32,20 @@ cycle = checkpoint * 35 # 35 checkpoints per cycle
 seconds = 1000
 
 formatTime = (time) ->
-    m = if tzName then moment(time).tz(tzName) else moment(time).zone(tzOffset)
+    m = if tzName then moment(time).tz(tzName) else moment(time).utcOffset(tzOffset)
     m.format " #{timeFormat}"
 
 getNextCycle = (next = 1) ->
     now = new Date().getTime()
     start = seconds * cycle * Math.floor now / (cycle * seconds)
     time = start + cycle * seconds * next
-    formatTime(time)
+    formatTime time
 
 getNextCheckpoint = (next = 1) ->
     now = new Date().getTime()
     start = checkpoint * seconds * Math.floor now / (checkpoint * seconds)
     time = start + checkpoint * seconds * next
-    formatTime(time)
+    formatTime time
 
 module.exports = (robot) ->
   robot.respond /cycle offset/i, (msg) ->
@@ -57,10 +57,10 @@ module.exports = (robot) ->
     msg.send "Timezone offset is set to #{tzOffset}. I hope you know what you are doing."
 
   robot.respond /cycle set offsetname (.*)/i, (msg) ->
-    tzOffset = msg.match[1]
+    tzName = msg.match[1]
     msg.send "Timezone offset name is set to #{tzName}. I hope you know what you are doing."
 
-  robot.respond /(septi)?cycle\s*([0-9])?/i, (msg) ->
+  robot.respond /(septi)?cycle\s*([0-9])?$/i, (msg) ->
     count = +msg.match[2]
     count = 1 unless count > 1
     times = []
