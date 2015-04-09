@@ -40,7 +40,7 @@ create a new key under "_Credentials_".
 
 `HUBOT_CYCLE_TIME_FMT` - Optionally ovveride the display format for times (see Moment-timezone.js). Default is "ddd hA" (e.g. "Sun 10pm")
 
-`HUBOT_CYCLE_TZ_NAME` - Optionally set the timezone name (e.g. 'EST' see Moment-timezone.js). This wins when set.
+`HUBOT_CYCLE_TZ_NAME` - Optionally set the timezone name (e.g. 'America/Chicago' see Moment-timezone.js). This wins when set.
 
 `HUBOT_CYCLE_TZ_OFFSET` - Optionally set the timezone offset (e.g. '-05:00', see Moment.js). Defaults to the server instance's offset. This is used when `HUBOT_CYCLE_TZ_NAME` is not provided.
 
@@ -126,3 +126,11 @@ Returns the current configured timezone offset.
 Set the timezone offset. See [Moment.js](http://momentjs.com/docs/#/manipulating/timezone-offset/) for how to configure this.
 
 `hubot cycle set offset [offset]`
+
+### Set Timezone Offset By Name
+
+Set the timezone offset by name. See [TZ name list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for names to use.
+
+`hubot cycle set offsetname [offset-name]`
+
+
