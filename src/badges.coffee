@@ -121,42 +121,44 @@ module.exports = (robot) ->
       who = robot.brain.userForName who
 
     invalidNames = []
+    validNames = []
     for rawBadgeName in badgeNames
       colorNames = Object.keys(colorList).join '|'
-      badgeNameParts = rawBadgeName.match ///
-        ^\s* # Leading spaces
+      badgeNameParts = rawBadgeName.match /// ^
+        \s* # Leading spaces
         (#{colorNames})?
         \s* # Actual space
-        ([\-\w]+)# Badge Name
-        \s*$ # Trailing space
-        ///i
+        ([\-\w]+) # Badge Name
+        \s* # Trailing space
+        $ ///i
 
       continue unless badgeNameParts?
-      badgeName = badgeNameParts[1].toLowerCase()
+      badgeName = badgeNameParts[2].toLowerCase()
 
-      if badgeNameParts[0]
-        badgeName += colorList[badgeNameParts[0].toLowerCase()]
+      if badgeNameParts[1]
+        badgeName += colorList[badgeNameParts[1].toLowerCase()]
 
-      if badgeName not in badgeList
+      if badgeName in badgeList
+        validNames.push badgeName
+      else
         invalidNames.push badgeName
 
     msg.reply "invalid badge name(s): #{invalidNames.join ', '}." if invalidNames.length > 0
-    badgeNames = badgeNames.filter (x) -> x not in invalidNames
 
-    if badgeNames.length > 0
-      for badgeName in badgeNames
+    if validNames.length > 0
+      for badgeName in validNames
         badges.add who, badgeName
 
       userBadges = badges.forUser who
-      badgeNames = badgeNames.filter (x) ->
+      validNames = validNames.filter (x) ->
         ":#{x}:" in userBadges
 
       if who.name == msg.envelope.user.name
-        msg.reply "congrats on earning the :#{badgeNames.join ': :'}:
- badge#{if badgeNames.length > 1 then 's' else ''}!"
+        msg.reply "congrats on earning the :#{validNames.join ': :'}:
+ badge#{if validNames.length > 1 then 's' else ''}!"
       else
-        msg.send "@#{who.name}: congrats on earning the :#{badgeNames.join ': :'}:
- badge#{if badgeNames.length > 1 then 's' else ''}!"
+        msg.send "@#{who.name}: congrats on earning the :#{validNames.join ': :'}:
+ badge#{if validNames.length > 1 then 's' else ''}!"
 
   robot.respond /wh(?:at|ich) badges? do(?:es)? (@?[.\w\-]+) have/i, (msg) ->
     who = msg.match[1].replace '@', ''
