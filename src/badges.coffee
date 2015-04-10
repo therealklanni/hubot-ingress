@@ -50,7 +50,7 @@ badgeList = [
 ]
 
 colorList= {
-  '': 1,
+  '': '',
   'bronze': 1,
   'silver': 2,
   'gold': 3,
@@ -135,8 +135,11 @@ module.exports = (robot) ->
       continue unless badgeNameParts?
       badgeName = badgeNameParts[2].toLowerCase()
 
-      if badgeNameParts[1]
-        badgeName += colorList[badgeNameParts[1].toLowerCase()]
+      colorName = 'bronze'
+      colorName = badgeNameParts[1] if badgeNameParts[1]
+      colorName = '' if badgeName in badgeList
+
+      badgeName += colorList[colorName.toLowerCase()]
 
       if badgeName in badgeList
         validNames.push badgeName
