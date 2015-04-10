@@ -43,11 +43,21 @@ badgeList = [
   'shonin',
   'sojourner1', 'sojourner2', 'sojouner3', 'sojourner4', 'sojourner5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
-  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5', 
-  'translator1', 'translator2', 'translator3', 'translator4', 
+  'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
+  'translator1', 'translator2', 'translator3', 'translator4',
   'translator5',
   'verified'
 ]
+
+colorList= {
+  '': '',
+  'bronze': 1,
+  'silver': 2,
+  'gold': 3,
+  'platinum': 4,
+  'black': 5,
+  'onyx': 5
+}
 
 badgeTypes = {
   'builder': 5,
@@ -103,7 +113,7 @@ module.exports = (robot) ->
 
   robot.respond /(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
-    badgeNames = (msg.match[2].toLowerCase().replace /\s*/g, '').split ','
+    badgeNames = (msg.match[2].toLowerCase()).split ','
 
     if who == 'i'
       who = msg.envelope.user
@@ -111,27 +121,47 @@ module.exports = (robot) ->
       who = robot.brain.userForName who
 
     invalidNames = []
-    for badgeName in badgeNames
-      if badgeName not in badgeList
+    validNames = []
+    for rawBadgeName in badgeNames
+      colorNames = Object.keys(colorList).join '|'
+      badgeNameParts = rawBadgeName.match /// ^
+        \s* # Leading spaces
+        (#{colorNames})?
+        \s* # Actual space
+        ([\-\w]+) # Badge Name
+        \s* # Trailing space
+        $ ///i
+
+      continue unless badgeNameParts?
+      badgeName = badgeNameParts[2].toLowerCase()
+
+      colorName = 'bronze'
+      colorName = badgeNameParts[1] if badgeNameParts[1]
+      colorName = '' if badgeName in badgeList
+
+      badgeName += colorList[colorName.toLowerCase()]
+
+      if badgeName in badgeList
+        validNames.push badgeName
+      else
         invalidNames.push badgeName
 
     msg.reply "invalid badge name(s): #{invalidNames.join ', '}." if invalidNames.length > 0
-    badgeNames = badgeNames.filter (x) -> x not in invalidNames
 
-    if badgeNames.length > 0
-      for badgeName in badgeNames
+    if validNames.length > 0
+      for badgeName in validNames
         badges.add who, badgeName
 
       userBadges = badges.forUser who
-      badgeNames = badgeNames.filter (x) ->
+      validNames = validNames.filter (x) ->
         ":#{x}:" in userBadges
 
       if who.name == msg.envelope.user.name
-        msg.reply "congrats on earning the :#{badgeNames.join ': :'}:
- badge#{if badgeNames.length > 1 then 's' else ''}!"
+        msg.reply "congrats on earning the :#{validNames.join ': :'}:
+ badge#{if validNames.length > 1 then 's' else ''}!"
       else
-        msg.send "@#{who.name}: congrats on earning the :#{badgeNames.join ': :'}:
- badge#{if badgeNames.length > 1 then 's' else ''}!"
+        msg.send "@#{who.name}: congrats on earning the :#{validNames.join ': :'}:
+ badge#{if validNames.length > 1 then 's' else ''}!"
 
   robot.respond /wh(?:at|ich) badges? do(?:es)? (@?[.\w\-]+) have/i, (msg) ->
     who = msg.match[1].replace '@', ''
@@ -166,18 +196,18 @@ module.exports = (robot) ->
   robot.respond /I (?:do(?:n't| not)) have any badges?/i, (msg) ->
     badges.clear msg.envelope.user
     msg.reply 'OK, removed all your badges'
-    
+
   robot.respond /list badges ?.*/i, (msg) ->
     message = ""
     for badgeType of badgeTypes
       message += "#{badgeType}, "
-    msg.send message  
+    msg.send message
 
   robot.respond /display badges ?.*/i, (msg) ->
     message = "The available badges are:\n"
-    for badgeType, badgeNum of badgeTypes 
+    for badgeType, badgeNum of badgeTypes
       if badgeNum == 1
         message += "#{badgeType}: :#{badgeType}: \n"
-      else 
+      else
         message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
-    msg.send message   
+    msg.send message

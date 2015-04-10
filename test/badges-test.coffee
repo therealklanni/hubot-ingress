@@ -61,13 +61,29 @@ describe 'ingress: badges', ->
     expect(badges).to.be.a('array')
     expect(badges).to.include(':oliver-lynton-wolfe:')
 
+  it 'responds to "I have the black guardian badge"', ->
+    @msg.match = [0, 'I', 'black guardian']
+    @robot.respond.args[0][1](@msg)
+    badges = @data.ingressBadges.U123
+    expect(@msg.reply).to.have.been.calledWith('congrats on earning the :guardian5: badge!')
+    expect(badges).to.be.a('array')
+    expect(badges).to.include(':guardian5:')
+
+  it 'responds to "I have the guardian badge"', ->
+    @msg.match = [0, 'I', 'guardian']
+    @robot.respond.args[0][1](@msg)
+    badges = @data.ingressBadges.U123
+    expect(@msg.reply).to.have.been.calledWith('congrats on earning the :guardian1: badge!')
+    expect(badges).to.be.a('array')
+    expect(badges).to.include(':guardian1:')
+
   it 'responds with error message on invalid badge name', ->
     @msg.match = [0, 'I', 'random']
     @robot.respond.args[0][1](@msg)
     badges = @data.ingressBadges.U123
-    expect(@msg.reply).to.have.been.calledWith('invalid badge name(s): random.')
+    expect(@msg.reply).to.have.been.calledWith('invalid badge name(s): random1.')
     expect(badges).to.be.a('array')
-    expect(badges).not.to.include(':random:')
+    expect(badges).not.to.include(':random1:')
 
   it '"I have" automatically replaces badge of same type', ->
     @msg.match = [0, 'I', 'hacker1']
