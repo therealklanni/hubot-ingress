@@ -25,12 +25,14 @@ describe 'ingress: intelmap', ->
   parseError =
     location: "parse_error"
   httpResponseNoKey =
-    body: '{"results": [{ "geometry": { "location": { "lat": "LatNoKey", "lng": "LongNoKey" } } }]}'
+    body: '{"results": [{ "formatted_address" : "Some, Formatted, Address", "geometry": { "location": { "lat": "LatNoKey", "lng": "LongNoKey" } } }]}'
+    formatted_address: "Some, Formatted, Address"
     lat: "LatNoKey"
     long: "LongNoKey"
   httpResponseKey =
     expectedKey: 'ExpectedGeocodeKey'
-    body: '{"results": [{ "geometry": { "location": { "lat": "LatKey", "lng": "LongKey" } } }]}'
+    body: '{"results": [{ "formatted_address" : "Some, Formatted, Address", "geometry": { "location": { "lat": "LatKey", "lng": "LongKey" } } }]}'
+    formatted_address: "Some, Formatted, Address"
     lat: "LatKey"
     long: "LongKey"
 
@@ -78,10 +80,10 @@ describe 'ingress: intelmap', ->
   it 'responds to intelmap with url when no Google Geocode API key set', ->
     @msg.match = [0, 'intelmap', 'boston ma']
     @robot.respond.args[0][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseNoKey.lat},#{httpResponseNoKey.long}&z=16")
+    expect(@msg.send).to.have.been.calledWith("#{httpResponseKey.formatted_address}\nhttps://www.ingress.com/intel?ll=#{httpResponseNoKey.lat},#{httpResponseNoKey.long}&z=16")
 
   it 'responds to intelmap with url when Google Geocode API key set', ->
     @msg.match = [0, 'intelmap', 'boston ma']
     @robot.googleGeocodeKey = httpResponseKey.expectedKey
     @robot.respond.args[0][1](@msg)
-    expect(@msg.reply).to.have.been.calledWith("https://www.ingress.com/intel?ll=#{httpResponseKey.lat},#{httpResponseKey.long}&z=16")
+    expect(@msg.send).to.have.been.calledWith("#{httpResponseKey.formatted_address}\nhttps://www.ingress.com/intel?ll=#{httpResponseKey.lat},#{httpResponseKey.long}&z=16")
