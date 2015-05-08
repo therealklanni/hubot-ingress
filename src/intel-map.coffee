@@ -10,8 +10,6 @@
 # Commands:
 #   hubot intelmap for <search>
 #
-# Author:
-#   therealklanni
 
 module.exports = (robot) ->
   # Setting this on robot so that it can be overridden in test. Is there a better way?
@@ -27,18 +25,21 @@ module.exports = (robot) ->
       .get() (err, res, body) ->
         try
           body = JSON.parse body
-          coords = body.results[0].geometry.location
+          result =
+            address: body.results[0].formatted_address
+            coords: body.results[0].geometry.location
         catch err
           err = "Could not find #{location}"
           return cb(err, msg, null)
-        cb(err, msg, coords)
+        cb(err, msg, result)
 
-  intelmapUrl = (coords) ->
-    return "https://www.ingress.com/intel?ll=" + encodeURIComponent(coords.lat) + "," + encodeURIComponent(coords.lng) + "&z=16"
-  sendIntelLink = (err, msg, coords) ->
+  intelmapUrl = (result) ->
+    return result.address + "\nhttps://www.ingress.com/intel?ll=" + encodeURIComponent(result.coords.lat) + "," + encodeURIComponent(result.coords.lng) + "&z=16"
+
+  sendIntelLink = (err, msg, result) ->
     return msg.send err if err
-    url = intelmapUrl coords
-    msg.reply url
+    url = intelmapUrl result
+    msg.send url
 
   robot.respond /(intelmap|intel map)(?: for)?\s(.*)/i, (msg) ->
     location = msg.match[2]
