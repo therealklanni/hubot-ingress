@@ -32,8 +32,8 @@ describe 'ingress: cycle times', ->
   it 'registers "cycle offset" listener', ->
     expect(@robot.respond).to.have.been.calledWith /cycle offset/i
 
-  it 'registers "cycle set offset" listener', ->
-    expect(@robot.respond).to.have.been.calledWith /cycle set offset (.*)/i
+  it 'registers "mu" listener', ->
+    expect(@robot.respond).to.have.been.calledWith /m(ind\s*)?u(nits?)?( needed)?\s+([0-9]+k?)\s+([0-9]+k?)/i
 
-  it 'registers "cycle set offsetname" listener', ->
-    expect(@robot.respond).to.have.been.calledWith /cycle set offsetname (.*)/i
+  it 'registers "average mu" listener', ->
+    expect(@robot.respond).to.have.been.calledWith /m(ind\s*)?u(nits?)? average\s+([0-9]+k?)\s+([0-9]+k?)/i
