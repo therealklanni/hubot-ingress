@@ -83,6 +83,14 @@ module.exports = (robot) ->
     offset = tzName or tzOffset
     msg.send "Current timezone offset is #{offset}."
 
+  robot.respond /cycle set offset (.*)/i, (msg) ->
+    tzOffset = msg.match[1]
+    msg.send "Timezone offset is set to #{tzOffset}. I hope you know what you are doing."
+
+  robot.respond /cycle set offsetname (.*)/i, (msg) ->
+    tzName = msg.match[1]
+    msg.send "Timezone offset name is set to #{tzName}. I hope you know what you are doing."
+
   robot.respond /(septi)?cycle\s*([0-9])?$/i, (msg) ->
     count = +msg.match[2]
     count = 1 unless count > 1
