@@ -22,7 +22,10 @@
 moment = require "moment-timezone"
 
 # Environment variables
-timeFormat = process.env.HUBOT_CYCLE_TIME_FMT or "ddd hA"
+dayFormat = process.env.HUBOT_CYCLE_DAY_FMT or "ddd"
+dateFormat = process.env.HUBOT_CYCLE_DAY_FMT or "ddd, MMMM Do YYYY"
+timeFormat = process.env.HUBOT_CYCLE_TIME_FMT or "hA"
+daytimeFormat = process.env.HUBOT_CYCLE_DAYTIME_FMT or "#{dayFormat} #{timeFormat}"
 tzOffset = process.env.HUBOT_CYCLE_TZ_OFFSET or moment().format("Z")
 tzName = process.env.HUBOT_CYCLE_TZ_NAME
 
@@ -31,9 +34,12 @@ checkpoint = 5*60*60 # 5 hours per checkpoint
 cycle = checkpoint * 35 # 35 checkpoints per cycle
 seconds = 1000
 
-formatTime = (time) ->
-    m = if tzName then moment(time).tz(tzName) else moment(time).utcOffset(tzOffset)
-    m.format " #{timeFormat}"
+localizeTime = (time) ->
+    if tzName then moment(time).tz(tzName) else moment(time).utcOffset(tzOffset)
+
+formatTime = (time, format = daytimeFormat) ->
+    m = localizeTime time
+    m.format " #{format}"
 
 getNextCycle = (next = 1) ->
     now = new Date().getTime()
@@ -41,11 +47,13 @@ getNextCycle = (next = 1) ->
     time = start + cycle * seconds * next
     formatTime time
 
-getNextCheckpoint = (next = 1) ->
-    now = new Date().getTime()
-    start = checkpoint * seconds * Math.floor now / (checkpoint * seconds)
+getSomeCheckpoint = (whenish, next = 1, format = daytimeFormat) ->
+    start = checkpoint * seconds * Math.floor whenish / (checkpoint * seconds)
     time = start + checkpoint * seconds * next
-    formatTime time
+    formatTime time, format
+
+getNextCheckpoint = (next = 1) ->
+    getSomeCheckpoint new Date().getTime(), next
 
 module.exports = (robot) ->
   robot.respond /cycle offset/i, (msg) ->
@@ -68,9 +76,32 @@ module.exports = (robot) ->
     msg.send "The next #{count} cycle(s) occur at: #{times}."
 
 
-  robot.respond /c(heck)?p(oint)?\s*([0-9])?/i, (msg) ->
+  robot.respond /c(heck)?p(oint)?(\s+[0-9]+)?$/i, (msg) ->
     count = +msg.match[3]
     count = 1 unless count > 1
     times = []
     times.push getNextCheckpoint number for number in [1..count]
     msg.send "The next #{count} checkpoint(s) occur at: #{times}."
+
+  robot.respond /c(heck)?p(oint)?s\s+on\s+((this|next)\s+)?([a-z]+day)/i, (msg) ->
+    today = localizeTime moment()
+    whenish = today.clone().day(msg.match[5]).startOf "day"
+    unless whenish.isAfter today
+        whenish.add 7, "days"
+    day = formatTime whenish, dateFormat
+
+    whenish.subtract 1, "minute"
+    times = []
+    times.push getSomeCheckpoint whenish, number, timeFormat for number in [1..5]
+    msg.send "The checkpoints on #{day} occur at: #{times}."
+
+  robot.respond /c(heck)?p(oint)?s on (.*)/i, (msg) ->
+    return if msg.match[3].match /day$/i
+    today = localizeTime moment().isoWeekday()
+    whenish = localizeTime(new Date(msg.match[3])).startOf "day"
+    day = formatTime whenish, dateFormat
+
+    whenish.subtract 1, "minute"
+    times = []
+    times.push getSomeCheckpoint whenish, number, timeFormat for number in [1..5]
+    msg.send "The checkpoints on #{day} occur at: #{times}."
