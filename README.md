@@ -135,14 +135,31 @@ Returns the current configured timezone offset.
 
 ### Set Timezone Offset
 
-Temporarily sets the timezone offset. See [Moment.js](http://momentjs.com/docs/#/manipulating/timezone-offset/)
-for how to configure this.
+Temporarily sets the timezone offset. See [Moment.js](http://momentjs.com/docs/#/manipulating/timezone-offset/) for how to configure this.
 
 `hubot cycle set offset [offset]`
 
 ### Set Timezone Offset By Name
 
-Temporarily sets the timezone offset by name. See [TZ name list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-for names to use.
+Temporarily sets the timezone offset by name. See [TZ name list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) for names to use.
 
 `hubot cycle set offsetname [offset-name]`
+
+### Calculate MU score
+
+Using the provided scores (from your scanner), calculates the difference currently needed to win the cycle.
+
+`hubot mind units needed [ours] [theirs]`
+`hubot mu needed [ours] [theirs]`
+`hubot mu [ours] [theirs]`
+
+MU scores can be absolute numbers or shortened by 1000 (both 42000 and 42k work).
+
+### Calculate MU average score
+
+Using the provided scores (from your scanner), calculates the difference per cycle currently needed to win the cycle.
+
+`hubot mind units average [ours] [theirs]`
+`hubot mu average [ours] [theirs]`
+
+MU scores can be absolute numbers or shortened by 1000 (both 42000 and 42k work).
