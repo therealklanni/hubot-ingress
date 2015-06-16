@@ -5,12 +5,12 @@
 #   None
 #
 # Commands:
-#   hubot I have the <badge> badge - add/remove badges (say don't to remove)
-#   hubot I don't have any badges - remove your badges completely
-#   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
-#   hubot what badges does <person> have? - check another agent's badges
-#   hubot list badges - list the badges available
-#   hubot display badges - displays all the badge titles and the badges
+#   hubot I have the <badge> badge - add/remove badges (Ingress)
+#   hubot I don't have any badges - remove your badges completely (Ingress)
+#   hubot what badges do I have? - show off your Ingress badges (Ingress)
+#   hubot what badges does <person> have? - check another agent's badges (Ingress)
+#   hubot list badges - list the badges available (Ingress)
+#   hubot display badges - displays all the badge titles and the badges (Ingress)
 #
 # Author:
 #   therealklanni
@@ -25,6 +25,7 @@ badgeList = [
   'founder',
   'guardian1', 'guardian2', 'guardian3', 'guardian4', 'guardian5',
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
+  'hankjohnson',
   'helios',
   'illuminator1', 'illuminator2', 'illuminator3', 'illuminator4',
   'illuminator5',
@@ -33,7 +34,10 @@ badgeList = [
   'interitus',
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
   'mindcontroller1', 'mindcontroller2', 'mindcontroller3', 'mindcontroller4', 'mindcontroller5',
+  'missionday',
+  'nl1331',
   'oliver-lynton-wolfe',
+  'persepolis',
   'pioneer1', 'pioneer2', 'pioneer3', 'pioneer4', 'pioneer5',
   'purifier1', 'purifier2', 'purifier3', 'purifier4', 'purifier5',
   'recharger1', 'recharger2', 'recharger3', 'recharger4', 'recharger5',
@@ -43,6 +47,8 @@ badgeList = [
   'shonin',
   'sojourner1', 'sojourner2', 'sojourner3', 'sojourner4', 'sojourner5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
+  'stellavyctory',
+  'susannamoyer',
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
   'translator1', 'translator2', 'translator3', 'translator4',
   'translator5',
@@ -69,6 +75,7 @@ badgeTypes = {
   'founder': 1,
   'guardian': 5,
   'hacker': 5,
+  'hankjohnson': 1,
   'helios': 1,
   'illuminator': 5,
   'initio': 1,
@@ -76,7 +83,10 @@ badgeTypes = {
   'interitus': 1,
   'liberator': 5,
   'mindcontroller': 5,
+  'missionday': 1,
+  'nl1331': 1,
   'oliver-lynton-wolfe': 1,
+  'persepolis': 1,
   'pioneer': 5,
   'purifier': 5,
   'recharger': 5,
@@ -86,6 +96,8 @@ badgeTypes = {
   'shonin': 1,
   'sojourner': 5,
   'specops': 5,
+  'stellavyctory': 1,
+  'susannamoyer': 1,
   'trekker': 5,
   'translator': 5,
   'verified': 1
