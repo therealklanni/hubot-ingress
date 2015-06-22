@@ -127,6 +127,12 @@ next X start times.
 
 `hubot checkpoint|cp [count]`
 
+### Get Checkpoint times on a day
+
+Calculate the checkpoint times for a given day. Day given can be in common date formats (e.g. 5/17/14, May 4, 1999, 5 May 2016) and in English day names (e.g. Saturday, monday, this Thursday). Note that "Thursday", "this Thursday", and "next Thursday" all return the same data.
+
+`hubot checkpoints|cps on <day>`
+
 ### Get Timezone Offset
 
 Returns the current configured timezone offset.

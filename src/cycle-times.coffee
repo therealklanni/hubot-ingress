@@ -22,7 +22,10 @@
 moment = require "moment-timezone"
 
 # Environment variables
-timeFormat = process.env.HUBOT_CYCLE_TIME_FMT or "ddd hA"
+dayFormat = process.env.HUBOT_CYCLE_DAY_FMT or "ddd"
+dateFormat = process.env.HUBOT_CYCLE_DAY_FMT or "ddd, MMMM Do YYYY"
+timeFormat = process.env.HUBOT_CYCLE_TIME_FMT or "hA"
+daytimeFormat = process.env.HUBOT_CYCLE_DAYTIME_FMT or "#{dayFormat} #{timeFormat}"
 tzOffset = process.env.HUBOT_CYCLE_TZ_OFFSET or moment().format("Z")
 tzName = process.env.HUBOT_CYCLE_TZ_NAME
 
@@ -32,27 +35,36 @@ checkpointsInCycle = 35
 cycle = checkpoint * checkpointsInCycle
 seconds = 1000
 
-formatTime = (time) ->
-    m = if tzName then moment(time).tz tzName  else moment(time).utcOffset tzOffset
-    m.format " #{timeFormat}"
+localizeTime = (time) ->
+    if tzName then moment(time).tz tzName else moment(time).utcOffset tzOffset
 
-calculateNextCycle = (next = 1) ->
-    now = new Date().getTime()
-    start = seconds * cycle * Math.floor now / (cycle * seconds)
+formatTime = (time, format = daytimeFormat) ->
+    m = localizeTime time
+    m.format " #{format}"
+
+calculateSomeCycle = (whenish, next = 1) ->
+    start = seconds * cycle * Math.floor whenish / (cycle * seconds)
     start + cycle * seconds * next
 
-getNextCycle = (next = 1) ->
-    formatTime calculateNextCycle next
+calculateNextCycle = (next = 1) ->
+    calculateSomeCycle new Date().getTime()
 
+getNextCycle = (next = 1, format = daytimeFormat) ->
+    formatTime calculateNextCycle next, format
+
+calculateSomeCheckpoint = (whenish, next = 1) ->
+    start = checkpoint * seconds * Math.floor whenish / (checkpoint * seconds)
+    start + checkpoint * seconds * next
 
 calculateNextCheckpoint = (next = 1) ->
-    now = new Date().getTime()
-    start = checkpoint * seconds * Math.floor now / (checkpoint * seconds)
-    start + checkpoint * seconds * next
+    calculateSomeCheckpoint new Date().getTime(), next
+
+getSomeCheckpoint = (whenish, next = 1, format = daytimeFormat) ->
+    time = calculateSomeCheckpoint whenish, next
+    formatTime time, format
 
 getNextCheckpoint = (next = 1) ->
     formatTime calculateNextCheckpoint next
-
 
 calculateMuDifference = (ours, theirs) ->
     nextCycle = calculateNextCycle 1
@@ -77,7 +89,6 @@ getMuNeededAverage = (ours, theirs) ->
     difference = calculateMuDifference ours, theirs
     Math.ceil difference / checkpointsRemaining
 
-
 module.exports = (robot) ->
   robot.respond /cycle offset/i, (msg) ->
     offset = tzName or tzOffset
@@ -98,12 +109,35 @@ module.exports = (robot) ->
     times.push getNextCycle number for number in [1..count]
     msg.send "The next #{count} cycle(s) occur at: #{times}."
 
-  robot.respond /c(heck)?p(oint)?\s*([0-9])?/i, (msg) ->
+  robot.respond /c(heck)?p(oint)?(\s+[0-9]+)?$/i, (msg) ->
     count = +msg.match[3]
     count = 1 unless count > 1
     times = []
     times.push getNextCheckpoint number for number in [1..count]
     msg.send "The next #{count} checkpoint(s) occur at: #{times}."
+
+  robot.respond /c(heck)?p(oint)?s\s+on\s+((this|next)\s+)?([a-z]+day)/i, (msg) ->
+    today = localizeTime moment()
+    whenish = today.clone().day(msg.match[5]).startOf "day"
+    unless whenish.isAfter today
+        whenish.add 7, "days"
+    day = formatTime whenish, dateFormat
+
+    whenish.subtract 1, "minute"
+    times = []
+    times.push getSomeCheckpoint whenish, number, timeFormat for number in [1..5]
+    msg.send "The checkpoints on #{day} occur at: #{times}."
+
+  robot.respond /c(heck)?p(oint)?s on (.*)/i, (msg) ->
+    return if msg.match[3].match /day$/i
+    today = localizeTime moment().isoWeekday()
+    whenish = localizeTime(new Date(msg.match[3])).startOf "day"
+    day = formatTime whenish, dateFormat
+
+    whenish.subtract 1, "minute"
+    times = []
+    times.push getSomeCheckpoint whenish, number, timeFormat for number in [1..5]
+    msg.send "The checkpoints on #{day} occur at: #{times}."
 
   robot.respond /m(ind\s*)?u(nits?)?( needed)?\s+([0-9]+k?)\s+([0-9]+k?)/i, (msg) ->
     ours = +msg.match[4]
