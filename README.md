@@ -1,9 +1,7 @@
-# Ingress Hubot
+# Ingress Hubot [![Build Status](https://travis-ci.org/hubot-scripts/hubot-ingress.svg)](https://travis-ci.org/hubot-scripts/hubot-ingress)
 
 A collection of Ingress-related commands for Hubot. This script is designed
 specifically for use with the Slack adapter.
-
-[![Build Status](https://travis-ci.org/hubot-scripts/hubot-ingress.svg)](https://travis-ci.org/hubot-scripts/hubot-ingress)
 
 ## Features
 
