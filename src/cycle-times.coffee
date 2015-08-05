@@ -15,6 +15,9 @@
 #   hubot cycle offset
 #   hubot cycle set offset [offset]
 #   hubot cycle set offsetname [offset name]
+#   hubot checkpoints|cps on [date] [timezone]
+#   hubot mindunits|mindunit|mu average [ours]|[ours]k [theirs]|theirs]k
+#   hubot mindunits|mindunit|mu needed [ours]|[ours]k [theirs]|theirs]k
 #
 # Author:
 #   impleri
