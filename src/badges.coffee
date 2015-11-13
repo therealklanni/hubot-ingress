@@ -7,7 +7,7 @@
 # Commands:
 #   hubot I have the <badge> badge - add/remove badges (say don't to remove)
 #   hubot I don't have any badges - remove your badges completely
-#   hubot what badges do I have? - show off your Ingress badges—you worked hard for them!
+#   hubot what badges do I have? - show off your Ingress badgesâ€”you worked hard for them!
 #   hubot what badges does <person> have? - check another agent's badges
 #   hubot list badges - list the badges available
 #   hubot display badges - displays all the badge titles and the badges
@@ -67,6 +67,7 @@ colorList= {
 }
 
 badgeTypes = {
+  'abaddon': 1,
   'builder': 5,
   'connector': 5,
   'darsana': 1,
