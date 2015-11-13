@@ -16,6 +16,7 @@
 #   therealklanni
 
 badgeList = [
+  'abaddon',
   'builder1', 'builder2', 'builder3', 'builder4', 'builder5',
   'connector1', 'connector2', 'connector3', 'connector4', 'connector5',
   'darsana',
