@@ -46,7 +46,7 @@ badgeList = [
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
   'translator1', 'translator2', 'translator3', 'translator4',
   'translator5',
-  'verified'
+  'verified',
   'vandguard1', 'vandguard2', 'vandguard3', 'vandguard4', 'vandguard5'
 ]
 
