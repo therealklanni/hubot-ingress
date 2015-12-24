@@ -53,7 +53,8 @@ badgeList = [
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
   'translator1', 'translator2', 'translator3', 'translator4',
   'translator5',
-  'verified'
+  'verified',
+  'vandguard1', 'vandguard2', 'vandguard3', 'vandguard4', 'vandguard5'
 ]
 
 colorList= {
@@ -102,7 +103,8 @@ badgeTypes = {
   'susanna-moyer': 1,
   'trekker': 5,
   'translator': 5,
-  'verified': 1
+  'verified': 1,
+  'vandguard': 5
 }
 
 module.exports = (robot) ->
