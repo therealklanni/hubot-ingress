@@ -1,6 +1,6 @@
 # Ingress Hubot [![Build Status](https://travis-ci.org/hubot-scripts/hubot-ingress.svg)](https://travis-ci.org/hubot-scripts/hubot-ingress) [![npm version](https://badge.fury.io/js/hubot-ingress.svg)](http://badge.fury.io/js/hubot-ingress)
 
-> **Looking for maintainer(s)!** Create an issue asking to become a maintainer if you're interested.
+> **Looking for maintainer(s)!** This project is still actively maintained, but I could use a hand. Create an issue asking to become a maintainer if you're interested.
 
 A collection of Ingress-related commands for Hubot. This script is designed
 specifically for use with the Slack adapter.
