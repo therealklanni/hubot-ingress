@@ -18,7 +18,8 @@
 badgeList = [
   'abaddon',
   'acolyte',
-  'ada',
+  'ada-1',
+  'ada-2',
   'aegis', 
   'builder1', 'builder2', 'builder3', 'builder4', 'builder5',
   'connector1', 'connector2', 'connector3', 'connector4', 'connector5',
@@ -83,7 +84,8 @@ colorList= {
 badgeTypes = {
   'abaddon': 1,
   'acolyte': 1,
-  'ada': 1,
+  'ada-1': 1,
+  'ada-2': 1,
   'aegis': 1,
   'builder': 5,
   'connector': 5,
