@@ -116,6 +116,7 @@ badgeTypes = {
   'missionday': 5,
   'nl-1331-1': 1,
   'nl-1331-2': 1,
+  'nl-prime': 1,
   'oliver-lynton-wolfe': 1,
   'obsidian': 1,
   'p-a-chapeau': 1,
