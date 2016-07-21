@@ -50,7 +50,7 @@ calculateSomeCycle = (whenish, next = 1) ->
     start + cycle * seconds * next
 
 calculateNextCycle = (next = 1) ->
-    calculateSomeCycle new Date().getTime()
+    calculateSomeCycle new Date().getTime(), next
 
 getNextCycle = (next = 1, format = daytimeFormat) ->
     formatTime calculateNextCycle next, format
@@ -69,14 +69,22 @@ getSomeCheckpoint = (whenish, next = 1, format = daytimeFormat) ->
 getNextCheckpoint = (next = 1) ->
     formatTime calculateNextCheckpoint next
 
+getCheckpointsDone = () ->
+    t0 = new Date('Wed, 08 Jan 2014 03:00:00 +0000');
+    t = new Date();
+    currentCheckpointNumber = Math.floor((t - t0) / (seconds * checkpoint)) % checkpointsInCycle
+
+getCheckpointsRemaining = () ->
+    checkpointsDone = getCheckpointsDone()
+    checkpointsRemaining = checkpointsInCycle - checkpointsDone
+
 calculateMuDifference = (ours, theirs) ->
-    nextCycle = calculateNextCycle 1
-    nextCheckpoint = calculateNextCheckpoint 1
-    timeRemaining = (nextCycle - nextCheckpoint) / seconds
-    checkpointsRemaining = timeRemaining / checkpoint
-    checkpointsDone = checkpointsInCycle - checkpointsRemaining
-    ourScore = checkpointsInCycle * ours / checkpointsDone
-    theirScore = checkpointsInCycle * theirs / checkpointsDone
+    startCycle = calculateNextCycle 0
+    lastCheckpoint = calculateNextCheckpoint 0
+    timeElapsed = (lastCheckpoint - startCycle) / seconds
+    checkpointsDone = timeElapsed / checkpoint
+    ourScore = checkpointsDone * ours
+    theirScore = checkpointsDone * theirs
     difference = theirScore - ourScore
     difference = 0 if difference < 1
     difference + 1
@@ -85,10 +93,7 @@ getMuNeededNow = (ours, theirs) ->
     calculateMuDifference ours, theirs
 
 getMuNeededAverage = (ours, theirs) ->
-    nextCycle = calculateNextCycle 1
-    nextCheckpoint = calculateNextCheckpoint 1
-    timeRemaining = (nextCycle - nextCheckpoint) / seconds
-    checkpointsRemaining = timeRemaining / checkpoint
+    checkpointsRemaining = getCheckpointsRemaining()
     difference = calculateMuDifference ours, theirs
     Math.ceil difference / checkpointsRemaining
 
@@ -150,7 +155,31 @@ module.exports = (robot) ->
     theirs = 1000 * +msg.match[5].slice 0, -1 if "k" is msg.match[5].slice -1
     theirs = 0 unless theirs > 0
     needed = getMuNeededNow ours, theirs
-    msg.send "We need #{needed} MU to win the cycle."
+
+    if ours > theirs
+      winning = 'RES'
+      losing = 'ENL'
+    else
+      winning = 'ENL'
+      losing = 'RES'
+
+    checkpointsDone = getCheckpointsDone()
+    checkpointsRemaining = getCheckpointsRemaining()
+    nextCheckpoint = getNextCheckpoint 1
+
+    if checkpointsDone == 0
+      summary = "No checkpoints have been completed in this cycle, please check back after #{nextCheckpoint}."
+    else
+      summary = "Current ENL score: #{theirs.toLocaleString()}\n" +
+                "Current RES score: #{ours.toLocaleString()}\n" +
+                "Checkpoints Done: #{checkpointsDone}\n" +
+                "Checkpoints Remaining: #{checkpointsRemaining}\n" +
+                "Next Checkpoint: #{nextCheckpoint}\n" +
+                "\n" +
+                "#{losing} needs #{needed.toLocaleString()} total MU to win the cycle in the next checkpoint, " +
+                "assuming #{winning} score doesn't change."
+
+    msg.send summary
 
   robot.respond /m(ind\s*)?u(nits?)? average\s+([0-9]+k?)\s+([0-9]+k?)/i, (msg) ->
     ours = +msg.match[3]
@@ -160,4 +189,29 @@ module.exports = (robot) ->
     theirs = 1000 * +msg.match[4].slice 0, -1 if "k" is msg.match[4].slice -1
     theirs = 0 unless theirs > 0
     needed = getMuNeededAverage ours, theirs
-    msg.send "We need to increase our MU by #{needed} per checkpoint to win the cycle."
+    checkpointsRemaining = getCheckpointsRemaining()
+
+    if ours > theirs
+      winning = 'RES'
+      losing = 'ENL'
+    else
+      winning = 'ENL'
+      losing = 'RES'
+
+    checkpointsDone = getCheckpointsDone()
+    checkpointsRemaining = getCheckpointsRemaining()
+    nextCheckpoint = getNextCheckpoint()
+
+    if checkpointsDone == 0
+      summary = "No checkpoints have been completed in this cycle, please check back after #{nextCheckpoint}."
+    else
+      summary = "Current ENL score: #{theirs.toLocaleString()}\n" +
+                "Current RES score: #{ours.toLocaleString()}\n" +
+                "Checkpoints Done: #{checkpointsDone}\n" +
+                "Checkpoints Remaining: #{checkpointsRemaining}\n" +
+                "Next Checkpoint: #{nextCheckpoint}\n" +
+                "\n" +
+                "#{losing} needs #{needed.toLocaleString()} MU per checkpoint in the remaining #{checkpointsRemaining} checkpoint(s) to win the cycle, " +
+                "assuming #{winning} score doesn't change."
+
+    msg.send summary
