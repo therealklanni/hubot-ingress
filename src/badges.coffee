@@ -15,6 +15,7 @@
 # Author:
 #   therealklanni
 
+
 badgeList = [
   'abaddon',
   'acolyte',
@@ -37,6 +38,7 @@ badgeList = [
   'guardian1', 'guardian2', 'guardian3', 'guardian4', 'guardian5',
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
   'hank-johnson',
+  'hank-johnson-2016',
   'helios',
   'illuminator1', 'illuminator2', 'illuminator3', 'illuminator4',
   'illuminator5',
@@ -45,11 +47,14 @@ badgeList = [
   'interitus',
   'jahan',
   'klue',
+  'klue-2016',
+  'kodama-smiles',
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
   'mindcontroller1', 'mindcontroller2', 'mindcontroller3', 'mindcontroller4', 'mindcontroller5',
   'missionday1', 'missionday2', 'missionday3', 'missionday4', 'missionday5',
   'nl-1331',
   'nl-1331-2016',
+  'nl-1331e'
   'nl-prime',
   'oliver-lynton-wolfe',
   'oliver-lynton-wolfe-2016',
@@ -72,6 +77,10 @@ badgeList = [
   'translator1', 'translator2', 'translator3', 'translator4', 'translator5',
   'verified',
   'vanguard1', 'vanguard2', 'vanguard3', 'vanguard4', 'vanguard5'
+  'via-lux-adventurer',
+  'via-lux-odyssey',
+  'via-lux',
+  'via-noir'
 ]
 
 badgeNameUpdateVersion = 1
@@ -124,6 +133,7 @@ badgeTypes = {
   'guardian': 5,
   'hacker': 5,
   'hank-johnson': 1,
+  'hank-johnson-2016': 1,
   'helios': 1,
   'illuminator': 5,
   'initio': 1,
@@ -131,11 +141,14 @@ badgeTypes = {
   'interitus': 1,
   'jahan': 1,
   'klue': 1,
+  'klue-2016': 1,
+  'kodama-smiles': 1,
   'liberator': 5,
   'mindcontroller': 5,
   'missionday': 5,
   'nl-1331': 1,
   'nl-1331-2016': 1,
+  'nl-1331e': 1,
   'nl-prime': 1,
   'oliver-lynton-wolfe': 1,
   'oliver-lynton-wolfe-2016': 1,
@@ -159,6 +172,10 @@ badgeTypes = {
   'translator': 5,
   'verified': 1,
   'vanguard': 5
+  'via-lux-adventurer': 1,
+  'via-lux-odyssey': 1,
+  'via-lux': 1,
+  'via-noir': 1
 }
 
 module.exports = (robot) ->
