@@ -103,6 +103,7 @@ badgeNameUpdateMap = {
 
 colorList= {
   '': '',
+  'locked': 0,
   'bronze': 1,
   'silver': 2,
   'gold': 3,
