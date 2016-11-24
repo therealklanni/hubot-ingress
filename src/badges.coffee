@@ -18,22 +18,22 @@
 badgeList = [
   'abaddon',
   'acolyte',
-  'ada-1',
-  'ada-2',
-  'aegis', 
-  'akira',
+  'ada',
+  'ada-2016',
+  'aegis-nova', 
+  'akira-tsukasa',
   'builder1', 'builder2', 'builder3', 'builder4', 'builder5',
   'connector1', 'connector2', 'connector3', 'connector4', 'connector5',
   'darsana',
-  'devra-1',
+  'devra-bogdanovich',
   'edgar-allan-wright',
   'engineer1', 'engineer2', 'engineer3', 'engineer4', 'engineer5',
   'eve',
   'explorer1', 'explorer2', 'explorer3', 'explorer4', 'explorer5',
   'founder',
   'goruck',
-  'goruckstealth',
-  'goruckurban',
+  'goruck-stealth',
+  'goruck-urban',
   'guardian1', 'guardian2', 'guardian3', 'guardian4', 'guardian5',
   'hacker1', 'hacker2', 'hacker3', 'hacker4', 'hacker5',
   'hank-johnson',
@@ -48,13 +48,13 @@ badgeList = [
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
   'mindcontroller1', 'mindcontroller2', 'mindcontroller3', 'mindcontroller4', 'mindcontroller5',
   'missionday1', 'missionday2', 'missionday3', 'missionday4', 'missionday5',
-  'nl-1331-1',
-  'nl-1331-2',
+  'nl-1331',
+  'nl-1331-2016',
   'nl-prime',
   'oliver-lynton-wolfe',
-  'oliver-lynton-wolfe-2',
+  'oliver-lynton-wolfe-2016',
   'obsidian',
-  'p-a-chapeau', 'p-a-chapeau-2',
+  'p-a-chapeau', 'p-a-chapeau-2016',
   'persepolis',
   'pioneer1', 'pioneer2', 'pioneer3', 'pioneer4', 'pioneer5',
   'purifier1', 'purifier2', 'purifier3', 'purifier4', 'purifier5',
@@ -66,14 +66,31 @@ badgeList = [
   'sojourner1', 'sojourner2', 'sojourner3', 'sojourner4', 'sojourner5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
   'stella-vyctory',
-  'susanna-moyer1',
-  'susanna-moyer2',
+  'susanna-moyer',
+  'susanna-moyer-2016',
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
-  'translator1', 'translator2', 'translator3', 'translator4',
-  'translator5',
+  'translator1', 'translator2', 'translator3', 'translator4', 'translator5',
   'verified',
   'vanguard1', 'vanguard2', 'vanguard3', 'vanguard4', 'vanguard5'
 ]
+
+badgeNameUpdateVersion = 1
+
+badgeNameUpdateMap = {
+  'ada-1': 'ada'
+  'ada-2': 'ada-2016'
+  'aegis': 'aegis-nova'
+  'akira': 'akira-tsukasa'
+  'devra-1': 'devra-bogdanovich'
+  'goruckstealh': 'goruck-stealth'
+  'goruckurban': 'goruck-urban'
+  'nl-1331-1': 'nl-1331'
+  'nl-1331-2': 'nl-1331-2016'
+  'oliver-lynton-wolfe-2': 'oliver-lynton-wolfe-2016'
+  'p-a-chapeau-2': 'p-a-chapeau-2016'
+  'susanna-moyer1': 'susanna-moyer'
+  'susanna-moyer2': 'susanna-moyer-2016'
+}
 
 colorList= {
   '': '',
@@ -88,22 +105,22 @@ colorList= {
 badgeTypes = {
   'abaddon': 1,
   'acolyte': 1,
-  'ada-1': 1,
-  'ada-2': 1,
-  'aegis': 1,
-  'akira': 1,
+  'ada': 1,
+  'ada-2016': 1,
+  'aegis-nova': 1,
+  'akira-tsukasa': 1,
   'builder': 5,
   'connector': 5,
   'darsana': 1,
-  'devra-1': 1,
+  'devra-bogdanovich': 1,
   'edgar-allan-wright': 1,
   'engineer': 5,
   'eve': 1,
   'explorer': 5,
   'founder': 1,
   'goruck': 1,
-  'goruckstealth': 1,
-  'goruckurban': 1,
+  'goruck-stealth': 1,
+  'goruck-urban': 1,
   'guardian': 5,
   'hacker': 5,
   'hank-johnson': 1,
@@ -117,14 +134,14 @@ badgeTypes = {
   'liberator': 5,
   'mindcontroller': 5,
   'missionday': 5,
-  'nl-1331-1': 1,
-  'nl-1331-2': 1,
+  'nl-1331': 1,
+  'nl-1331-2016': 1,
   'nl-prime': 1,
   'oliver-lynton-wolfe': 1,
-  'oliver-lynton-wolfe-2': 1,
+  'oliver-lynton-wolfe-2016': 1,
   'obsidian': 1,
   'p-a-chapeau': 1,
-  'p-a-chapeau-2': 1,
+  'p-a-chapeau-2016': 1,
   'persepolis': 1,
   'pioneer': 5,
   'purifier': 5,
@@ -136,8 +153,8 @@ badgeTypes = {
   'sojourner': 5,
   'specops': 5,
   'stella-vyctory': 1,
-  'susanna-moyer1': 1,
-  'susanna-moyer2': 1,
+  'susanna-moyer': 1,
+  'susanna-moyer-2016': 1,
   'trekker': 5,
   'translator': 5,
   'verified': 1,
@@ -158,6 +175,14 @@ module.exports = (robot) ->
     del: (user, badgeName) ->
       robot.brain.data.ingressBadges[user.id] = (badges.forUser user).filter (x) ->
         x isnt ":#{badgeName}:"
+    updateNames: ->
+      for userId, userBadges of robot.brain.data.ingressBadges
+        robot.brain.data.ingressBadgeNameUpdateVersion[userId] ?= 0
+        if robot.brain.data.ingressBadgeNameUpdateVersion[userId] < badgeNameUpdateVersion
+          for oldBadgeName, newBadgeName of badgeNameUpdateMap
+            index = userBadges.indexOf ":#{oldBadgeName}:"
+            userBadges[index] = ":#{newBadgeName}:" if index isnt -1
+          robot.brain.data.ingressBadgeNameUpdateVersion[userId] = badgeNameUpdateVersion
     clear: (user) ->
       robot.brain.data.ingressBadges[user.id] = []
     forUser: (user) ->
@@ -165,6 +190,8 @@ module.exports = (robot) ->
 
   robot.brain.on 'loaded', ->
     robot.brain.data.ingressBadges ?= {}
+    robot.brain.data.ingressBadgeNameUpdateVersion ?= {}
+    badges.updateNames()
 
   robot.respond /(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
     who = msg.match[1].toLowerCase().replace '@', ''
