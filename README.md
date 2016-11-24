@@ -59,6 +59,24 @@ named exactly how the emoji name should appear (leave off the .png of course).
 
 Go to <yourslackdomain>.slack.com/admin/emoji to configure emoji.
 
+NOTE: The following emojis have been renamed for consistency, and will automatically
+be renamed for each user when hubot is started. However, you will need to manually upload
+the new emojis (and remove the old ones) so that they look correct in Slack:
+
+* ada-1 -> ada
+* ada-2 -> ada-2016
+* aegis -> aegis-nova
+* akira -> akira-tsukasa
+* devra-1 -> devra-bogdanovich
+* goruckstealh -> goruck-stealth
+* goruckurban -> goruck-urban
+* nl-1331-1 -> nl-1331
+* nl-1331-2 -> nl-1331-2016
+* oliver-lynton-wolfe-2 -> oliver-lynton-wolfe-2016
+* p-a-chapeau-2 -> p-a-chapeau-2016
+* susanna-moyer1 -> susanna-moyer
+* susanna-moyer2 -> susanna-moyer-2016
+
 ## Commands
 
 ### AP requirement
