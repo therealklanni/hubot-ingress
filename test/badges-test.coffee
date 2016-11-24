@@ -56,7 +56,7 @@ describe 'ingress: badges', ->
 
   it 'updates user badge names when robot brain is loaded', ->
     badges = @data.ingressBadges.U012
-    badgeUpdateMapVersion = @data.ingressBadgeNameUpdateVersion.U012
+    badgeUpdateMapVersion = @data.ingressBadgeNameUpdateVersion
     expect(badges).to.be.a('array')
     expect(badges).to.include(':ada:')
     expect(badges).to.include(':ada-2016:')

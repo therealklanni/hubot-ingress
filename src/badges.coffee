@@ -193,13 +193,13 @@ module.exports = (robot) ->
       robot.brain.data.ingressBadges[user.id] = (badges.forUser user).filter (x) ->
         x isnt ":#{badgeName}:"
     updateNames: ->
-      for userId, userBadges of robot.brain.data.ingressBadges
-        robot.brain.data.ingressBadgeNameUpdateVersion[userId] ?= 0
-        if robot.brain.data.ingressBadgeNameUpdateVersion[userId] < badgeNameUpdateVersion
+      robot.brain.data.ingressBadgeNameUpdateVersion ?= 0
+      if robot.brain.data.ingressBadgeNameUpdateVersion < badgeNameUpdateVersion
+        for userId, userBadges of robot.brain.data.ingressBadges
           for oldBadgeName, newBadgeName of badgeNameUpdateMap
             index = userBadges.indexOf ":#{oldBadgeName}:"
             userBadges[index] = ":#{newBadgeName}:" if index isnt -1
-          robot.brain.data.ingressBadgeNameUpdateVersion[userId] = badgeNameUpdateVersion
+        robot.brain.data.ingressBadgeNameUpdateVersion = badgeNameUpdateVersion
     clear: (user) ->
       robot.brain.data.ingressBadges[user.id] = []
     forUser: (user) ->
@@ -207,7 +207,6 @@ module.exports = (robot) ->
 
   robot.brain.on 'loaded', ->
     robot.brain.data.ingressBadges ?= {}
-    robot.brain.data.ingressBadgeNameUpdateVersion ?= {}
     badges.updateNames()
 
   robot.respond /(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i, (msg) ->
