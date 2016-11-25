@@ -149,12 +149,12 @@ describe 'ingress: badges', ->
     expect(badges).to.include(':oliver-lynton-wolfe:')
   
   it '"I have" can handle multiple character badges when the respective character has an old and new badge', ->
-    @msg.match = [0, 'I', 'susanna-moyer1, susanna-moyer2']
+    @msg.match = [0, 'I', 'susanna-moyer, susanna-moyer-2016']
     @robot.respond.args[0][1](@msg)
     badges = @data.ingressBadges.U123
     expect(badges).to.be.a('array')
-    expect(badges).to.include(':susanna-moyer1:')
-    expect(badges).to.include(':susanna-moyer2:')
+    expect(badges).to.include(':susanna-moyer:')
+    expect(badges).to.include(':susanna-moyer-2016:')
     
   it '"I have" doesn\'t attempt to add an anomaly or character badge that has already been added', ->
     @msg.match = [0, 'I', 'shonin']
