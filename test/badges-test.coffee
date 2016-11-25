@@ -14,7 +14,25 @@ describe 'ingress: badges', ->
     brain:
       on: (_, cb) ->
         cb()
-      data: {}
+      data: {
+        ingressBadges: {
+          U012: [
+            ':ada-1:',
+            ':ada-2:',
+            ':aegis:',
+            ':akira:',
+            ':devra-1:',
+            ':goruckstealh:',
+            ':goruckurban:',
+            ':nl-1331-1:',
+            ':nl-1331-2:',
+            ':oliver-lynton-wolfe-2:',
+            ':p-a-chapeau-2:',
+            ':susanna-moyer1:',
+            ':susanna-moyer2:'
+          ]
+        }
+      }
       userForName: (who) ->
         forName =
           name: who
@@ -35,6 +53,25 @@ describe 'ingress: badges', ->
           @user
 
   require('../src/badges')(robot)
+
+  it 'updates user badge names when robot brain is loaded', ->
+    badges = @data.ingressBadges.U012
+    badgeUpdateMapVersion = @data.ingressBadgeNameUpdateVersion
+    expect(badges).to.be.a('array')
+    expect(badges).to.include(':ada:')
+    expect(badges).to.include(':ada-2016:')
+    expect(badges).to.include(':aegis-nova:')
+    expect(badges).to.include(':akira-tsukasa:')
+    expect(badges).to.include(':devra-bogdanovich:')
+    expect(badges).to.include(':goruck-stealth:')
+    expect(badges).to.include(':goruck-urban:')
+    expect(badges).to.include(':nl-1331:')
+    expect(badges).to.include(':nl-1331-2016:')
+    expect(badges).to.include(':oliver-lynton-wolfe-2016:')
+    expect(badges).to.include(':p-a-chapeau-2016:')
+    expect(badges).to.include(':susanna-moyer:')
+    expect(badges).to.include(':susanna-moyer-2016:')
+    expect(badgeUpdateMapVersion).to.equal 1
 
   it 'registers "have badge" listener', ->
     expect(@robot.respond).to.have.been.calledWith(/(@?[.\w\-]+) (?:have|has|got|earned)(?: the)? :?([\-\w,\s]+):? badges?/i)
@@ -112,12 +149,12 @@ describe 'ingress: badges', ->
     expect(badges).to.include(':oliver-lynton-wolfe:')
   
   it '"I have" can handle multiple character badges when the respective character has an old and new badge', ->
-    @msg.match = [0, 'I', 'susanna-moyer1, susanna-moyer2']
+    @msg.match = [0, 'I', 'susanna-moyer, susanna-moyer-2016']
     @robot.respond.args[0][1](@msg)
     badges = @data.ingressBadges.U123
     expect(badges).to.be.a('array')
-    expect(badges).to.include(':susanna-moyer1:')
-    expect(badges).to.include(':susanna-moyer2:')
+    expect(badges).to.include(':susanna-moyer:')
+    expect(badges).to.include(':susanna-moyer-2016:')
     
   it '"I have" doesn\'t attempt to add an anomaly or character badge that has already been added', ->
     @msg.match = [0, 'I', 'shonin']
