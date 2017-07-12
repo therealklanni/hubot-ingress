@@ -51,6 +51,7 @@ badgeList = [
   'kodama-smiles',
   'liberator1', 'liberator2', 'liberator3', 'liberator4', 'liberator5',
   'luminary1', 'luminary2', 'luminary3', 'luminary4', 'luminary5',
+  'magnus1', 'magnus2',
   'mindcontroller1', 'mindcontroller2', 'mindcontroller3', 'mindcontroller4', 'mindcontroller5',
   'missionday1', 'missionday2', 'missionday3', 'missionday4', 'missionday5',
   'nl-1331',
