@@ -14,6 +14,8 @@
 #
 # Author:
 #   therealklanni
+# Maintainer:
+#   drh4kor
 
 
 badgeList = [
@@ -68,8 +70,10 @@ badgeList = [
   'recharger1', 'recharger2', 'recharger3', 'recharger4', 'recharger5',
   'recursion',
   'recruiter0', 'recruiter1', 'recruiter2', 'recruiter3', 'recruiter4', 'recruiter5',
+  'sage1','sage2','sage3','sage4','sage5',
   'seer1', 'seer2', 'seer3', 'seer4', 'seer5',
   'shonin',
+  'simulacrum',
   'sojourner1', 'sojourner2', 'sojourner3', 'sojourner4', 'sojourner5',
   'specops1', 'specops2', 'specops3', 'specops4', 'specops5',
   'stella-vyctory',
@@ -164,9 +168,11 @@ badgeTypes = {
   'purifier': 5,
   'recharger': 5,
   'recursion': 1,
-  'recruiter': 6,
+  'recruiter': 5,
+  'sage': 5,
   'seer': 5,
   'shonin': 1,
+  'simulacrum':1,
   'sojourner': 5,
   'specops': 5,
   'stella-vyctory': 1,
