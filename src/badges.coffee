@@ -184,7 +184,7 @@ badgeTypes = {
   'hacker': 5,
   'hank-johnson': 1,
   'hank-johnson-2016': 1,
-  'hankjohnson-prime-2018': 2,
+  'hankjohnson-prime-2018': 1,
   'hank-2017': 1,
   'hank-2018': 1,
   'helios': 1,
