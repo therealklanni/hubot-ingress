@@ -19,7 +19,7 @@
 
 
 badgeList = [
-  '13magnus',
+  'one-three-magnus',
   'abaddon',
   'acolyte',
   'acolyte-2017',
@@ -155,7 +155,7 @@ colorList= {
 }
 
 badgeTypes = {
-  '13magnus': 1,
+  'one-three-magnus': 1,
   'abaddon': 1,
   'acolyte': 1,
   'acoloyte-2017': 1,
