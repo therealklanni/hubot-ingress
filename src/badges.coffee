@@ -201,6 +201,7 @@ badgeTypes = {
   'kodama-smiles': 1,
   'liberator': 5,
   'luminary': 5,
+  'magnus': 5,
   'mindcontroller': 5,
   'missionday': 5,
   'mistyhannah-2017': 1,
