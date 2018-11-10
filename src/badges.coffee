@@ -54,8 +54,7 @@ badgeList = [
   'hank-2017',
   'hank-2018',
   'helios',
-  'illuminator1', 'illuminator2', 'illuminator3', 'illuminator4',
-  'illuminator5',
+  'illuminator1', 'illuminator2', 'illuminator3', 'illuminator4','illuminator5',
   'initio',
   'innovator1', 'innovator2', 'innovator3', 'innovator4', 'innovator5'
   'intelops',
@@ -175,6 +174,7 @@ badgeTypes = {
   'engineer': 5,
   'eve': 1,
   'explorer': 5,
+  'exo': 1,
   'exo5': 5,
   'founder': 1,
   'goruck': 1,
