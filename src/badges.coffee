@@ -19,7 +19,6 @@
 
 
 badgeList = [
-  'one-three-magnus',
   'abaddon',
   'acolyte',
   'acolyte-2017',
@@ -88,6 +87,7 @@ badgeList = [
   'olw-prime-2018',
   'oliver-lynton-wolfe',
   'oliver-lynton-wolfe-2016',
+  'one-three-magnus',
   'obsidian',
   'operationclearfield',
   'operationclearfield-2018',
@@ -155,7 +155,6 @@ colorList= {
 }
 
 badgeTypes = {
-  'one-three-magnus': 1,
   'abaddon': 1,
   'acolyte': 1,
   'acoloyte-2017': 1,
@@ -220,6 +219,7 @@ badgeTypes = {
   'oliver-lynton-wolfe': 1,
   'oliver-lynton-wolfe-2016': 1,
   'olw-prime-2018': 1,
+  'one-three-magnus': 1,
   'obsidian': 1,
   'operationclearfield': 1,
   'operationclearfield-2018': 1,
