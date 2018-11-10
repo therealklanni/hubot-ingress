@@ -75,7 +75,7 @@ badgeList = [
   'nl-1331',
   'nl-1331-2016',
   'nl-1331e-2017',
-  'nl-1331e'
+  'nl-1331e',
   'nl-1131-meetup1','nl-1131-meetup2','nl-1131-meetup3','nl-1131-meetup4','nl-1131-meetup5',
   'nl-prime',
   'nla-2017',
@@ -233,7 +233,7 @@ badgeTypes = {
   'persepolis': 1,
   'pioneer': 5,
   'prime': 1,
-  'primechallenge', 1,
+  'primechallenge': 1,
   'purifier': 5,
   'recharger': 5,
   'recon': 5,
