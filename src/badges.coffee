@@ -19,6 +19,7 @@
 
 
 badgeList = [
+  '13magnus',
   'abaddon',
   'acolyte',
   'acolyte-2017',
@@ -85,7 +86,6 @@ badgeList = [
   'olw-prime-2018',
   'oliver-lynton-wolfe',
   'oliver-lynton-wolfe-2016',
-  'one-three-magnus',
   'obsidian',
   'operationclearfield',
   'operationclearfield-2018',
@@ -116,7 +116,7 @@ badgeList = [
   'trekker1', 'trekker2', 'trekker3', 'trekker4', 'trekker5',
   'translator1', 'translator2', 'translator3', 'translator4', 'translator5',
   'verified',
-  'vanguard1', 'vanguard2', 'vanguard3', 'vanguard4', 'vanguard5'
+  'vanguard1', 'vanguard2', 'vanguard3', 'vanguard4', 'vanguard5',
   'via-lux-adventurer',
   'via-lux-odyssey',
   'via-lux',
@@ -153,6 +153,7 @@ colorList= {
 }
 
 badgeTypes = {
+  '13magnus': 1,
   'abaddon': 1,
   'acolyte': 1,
   'acoloyte-2017': 1,
@@ -174,7 +175,7 @@ badgeTypes = {
   'engineer': 5,
   'eve': 1,
   'exo-five': 1,
-  'exo5': 5,
+  'exo5': 3,
   'explorer': 5,
   'founder': 1,
   'goruck': 1,
@@ -219,7 +220,6 @@ badgeTypes = {
   'olw-prime-2018': 1,
   'oliver-lynton-wolfe': 1,
   'oliver-lynton-wolfe-2016': 1,
-  'one-three-magnus': 1,
   'obsidian': 1,
   'operationclearfield': 1,
   'operationclearfield-2018': 1,
