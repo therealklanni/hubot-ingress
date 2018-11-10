@@ -238,7 +238,7 @@ badgeTypes = {
   'recharger': 5,
   'recon': 5,
   'recursion': 1,
-  'recruiter': 5,
+  'recruiter': 6,
   'sage': 5,
   'seer': 5,
   'shonin': 1,
