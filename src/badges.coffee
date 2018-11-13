@@ -40,7 +40,7 @@ badgeList = [
   'edgar-allan-wright',
   'engineer1', 'engineer2', 'engineer3', 'engineer4', 'engineer5',
   'eve',
-  'exo5'
+  'exo5',
   'exo-five1','exo-five2','exo-five3',
   'explorer1', 'explorer2', 'explorer3', 'explorer4', 'explorer5',
   'founder',
