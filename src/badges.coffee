@@ -386,6 +386,10 @@ module.exports = (robot) ->
     for badgeType, badgeNum of badgeTypes
       if badgeNum == 1
         message += "#{badgeType}: :#{badgeType}: \n"
+      else if badgeNum == 2
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: \n"
+      else if badgeNum == 3
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3:\n"
       else if badgeNum == 5
         message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
       else if badgeNum == 6
