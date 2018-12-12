@@ -257,7 +257,7 @@ badgeTypes = {
   'trekker': 5,
   'translator': 5,
   'verified': 1,
-  'vanguard': 5
+  'vanguard': 5 ,
   'via-lux-adventurer': 1,
   'via-lux-odyssey': 1,
   'via-lux': 1,
