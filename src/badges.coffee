@@ -257,7 +257,7 @@ badgeTypes = {
   'trekker': 5,
   'translator': 5,
   'verified': 1,
-  'vanguard': 5 ,
+  'vanguard': 5,
   'via-lux-adventurer': 1,
   'via-lux-odyssey': 1,
   'via-lux': 1,
@@ -391,13 +391,13 @@ module.exports = (robot) ->
     message = "The available badges are:\n"
     for badgeType, badgeNum of badgeTypes
       if badgeNum == 1
-        message += "#{badgeType}: :#{badgeType}: \n"
+        message += "#{badgeType}: :#{badgeType}:\n"
       else if badgeNum == 2
-        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: \n"
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2:\n"
       else if badgeNum == 3
         message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3:\n"
       else if badgeNum == 5
-        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
+        message += "#{badgeType}: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5:\n"
       else if badgeNum == 6
-        message += "#{badgeType}: :#{badgeType}0: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5: \n"
+        message += "#{badgeType}: :#{badgeType}0: :#{badgeType}1: :#{badgeType}2: :#{badgeType}3: :#{badgeType}4: :#{badgeType}5:\n"
     msg.send message
