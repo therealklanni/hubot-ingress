@@ -22,7 +22,7 @@ describe 'ingress: cycle times', ->
         user:
           @user
 
-  process.env.HUBOT_CYCLE_TZ_NAME = 'UTC'
+
   require("../src/cycle-times")(robot)
 
   it 'registers "cycle" listener', ->
@@ -34,17 +34,18 @@ describe 'ingress: cycle times', ->
   it 'registers "checkpoints on day" listener', ->
     expect(@robot.respond).to.have.been.calledWith /c(heck)?p(oint)?s\s+on\s+((this|next)\s+)?([a-z]+day)/i
 
-  it 'responds to "checkpoints on 12/25/13"', ->
+  it 'responds to "checkpoints on 12/25/2013"', ->
     @msg.match = [0, 1, 2, '12/25/2013']
     @robot.respond.args[6][1](@msg)
 
     expect(@msg.send).to.have.been.calledWith sinon.match /^.*December 25th 2013.*4am, 9am, 2pm, 7pm, 12am\./i
 
   it 'responds to "checkpoints on Saturday"', ->
-    @msg.match = [0, 1, 2, 3, 4, 'saturday']
+    #TODO:this test fails on Friday night only. strange.
+    @msg.match = [0, 1, 2, 3, 4, 'Saturday']
     @robot.respond.args[5][1](@msg)
     today = moment().startOf 'day'
-    saturday = moment().day('saturday').startOf 'day'
+    saturday = moment().day('Saturday').startOf 'day'
     saturday.add 7, "days" unless saturday.isAfter today
     realDate = saturday.format 'YYYY-MM-DD'
     otherMsg =
