@@ -1,7 +1,7 @@
 {
   "name": "hubot-ingress",
   "description": "Ingress commands for Hubot",
-  "version": "0.23.0",
+  "version": "0.24.6",
   "author": {
     "name": "Kevin Lanni",
     "email": "therealklanni@gmail.com",
@@ -21,14 +21,14 @@
     "url": "https://github.com/hubot-scripts/hubot-ingress/issues"
   },
   "dependencies": {
-    "coffee-script": "~1.6",
-    "moment-timezone": "~0.3"
+    "coffee-script": "1.*",
+    "moment-timezone": "*"
   },
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
-    "sinon-chai": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "sinon-chai": "*"
   },
   "main": "index.coffee",
   "scripts": {

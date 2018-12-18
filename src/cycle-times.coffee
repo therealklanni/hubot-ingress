@@ -30,7 +30,7 @@ dateFormat = process.env.HUBOT_CYCLE_DAY_FMT or "ddd, MMMM Do YYYY"
 timeFormat = process.env.HUBOT_CYCLE_TIME_FMT or "hA"
 daytimeFormat = process.env.HUBOT_CYCLE_DAYTIME_FMT or "#{dayFormat} #{timeFormat}"
 tzOffset = process.env.HUBOT_CYCLE_TZ_OFFSET or moment().format("Z")
-tzName = process.env.HUBOT_CYCLE_TZ_NAME
+tzName = process.env.HUBOT_CYCLE_TZ_NAME or "UTC"
 
 # Basic variables
 checkpoint = 5 * 60 * 60 # 5 hours per checkpoint
