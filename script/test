@@ -2,5 +2,5 @@
 
 # bootstrap environment
 source script/bootstrap
-
-mocha --compilers coffee:coffee-script  
+#mocha version 6 needs npm v6
+mocha --require coffee-script/register "test/*.coffee"

@@ -21,11 +21,12 @@
     "url": "https://github.com/hubot-scripts/hubot-ingress/issues"
   },
   "dependencies": {
-    "coffee-script": "1.*",
-    "moment-timezone": "*"
+    "coffee-register": "^2.2.0",
+    "moment-timezone": "^0.5"
   },
   "devDependencies": {
-    "mocha": "*",
+    "coffeescript": "1.12.*",
+    "mocha": "6.*",
     "chai": "*",
     "sinon": "*",
     "sinon-chai": "*"
